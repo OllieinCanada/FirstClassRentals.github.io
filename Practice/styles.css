@@ -1,0 +1,22 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    margin: 40px;
+}
+
+h1 {
+    color: rgb(0, 255, 30);
+    margin-bottom: 20px;
+}
+
+p {
+    color: #333333;
+}
+
+title{
+    color: #2600ff;
+}
+
+/* Add more styles as needed */
