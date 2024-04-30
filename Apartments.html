@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apartment Listings - First Class Apartments</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body, h1, h2, h3, p { margin: 0; padding: 0; }
+body { font-family: 'Arial', sans-serif; color: #333; background: #f4f4f4; }
+
+.container { width: 80%; max-width: 1200px; margin: auto; padding: 20px; }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  background: green;
+}
+.navbar ul { list-style-type: none; display: flex; gap: 25px; }
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+.navbar a:hover { color: yellow; }
+
+.listing {
+  display: flex;
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.listing img {
+  width: 150px;
+  height: 100px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.listing-info {
+  flex-grow: 1;
+}
+.listing-info h3 {
+  color: #333;
+  margin-bottom: 5px;
+}
+.listing-info h3 a {
+  color: #333; /* Keep the link the same color as the text */
+  text-decoration: none; /* No underline */
+}
+.listing-info h3 a:hover {
+  text-decoration: underline; /* Underline on hover for better UX */
+}
+.listing-info p {
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .navbar ul { flex-direction: column; display: none; }
+  .navbar a { display: block; padding: 10px; }
+  .listing {
+    flex-direction: column;
+    align-items: center;
+  }
+  .listing img {
+    margin-bottom: 10px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="navbar container">
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="About-us.html">About Us</a></li>
+        <li><a href="Apartment.html">Apartments</a></li>
+        <li><a href="Application.html">Applications</a></li>
+      </ul>
+    </nav>
+</header>
+
+<div class="container">
+  <!-- Sample listing 1 -->
+  <div class="listing">
+    <img src="Apartment.jpg" alt="Apartment Image">
+    <div class="listing-info">
+      <h3><a href="detail1.html">$745.00 - McMaster Students. Modern, quiet, spacious, WiFi, Clean</a></h3>
+      <p>Modern, purpose-built student residence for McMaster University. Professionally managed...</p>
+    </div>
+  </div>
+
+  <!-- Sample listing 2 -->
+  <div class="listing">
+    <img src="Apartment1.jpg" alt="Apartment Image">
+    <div class="listing-info">
+      <h3><a href="detail2.html">$475.00 - Room sublet for rent, all inclusive</a></h3>
+      <p>Room for rent for June, and July. Close to all amenities, high speed WiFi, all inclusive...</p>
+    </div>
+  </div>
+
+  <!-- Sample listing 3 -->
+  <div class="listing">
+    <img src="Apartment3.jpg" alt="Apartment Image">
+    <div class="listing-info">
+      <h3><a href="detail3.html">$595.00 - ROOM FOR RENT 2 MINUTES WALKING FROM MCMASTER</a></h3>
+      <p>2 MINUTES WALKING DISTANCE FROM MCMASTER WITH PARKING. 4 MONTH SUBLET...</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
