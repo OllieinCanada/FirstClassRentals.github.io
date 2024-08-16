@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applications - First Class Apartments</title>
+<style>
+/* ... (existing styles) ... */
+/* ... (additional styles for form-group, label, input, etc., as previously defined) ... */
+</style>
+<script>
+function toggleVisibility(conditionElementId, targetElementId) {
+  var conditionElement = document.getElementById(conditionElementId);
+  var targetElement = document.getElementById(targetElementId);
+  targetElement.style.display = conditionElement.value === 'yes' ? 'block' : 'none';
+}
+</script>
+</head>
+<body>
+
+<header class="navbar container">
+    <!-- ... (navbar content) ... -->
+</header>
+
+<div class="header-section container">
+  <h1>Applications</h1>
+</div>
+
+<div class="container">
+  <div class="form-section">
+    <h2>Type your information in the selected boxes to electronically send the application</h2>
+    <form action="/submit_application" method="post">
+      <!-- Existing Fields -->
+      <!-- ... (Full Name, Email, Address, Phone Number) ... -->
+
+      <div class="form-group">
+        <label for="tenantReference">Tenant Reference:</label>
+        <select id="tenantReference" name="tenantReference" onchange="toggleVisibility('tenantReference', 'tenantPhone')">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+        <input type="text" id="tenantPhone" name="tenantPhone" placeholder="Reference Phone Number" style="display:none" required>
+      </div>
+
+      <div class="form-group">
+        <label for="rent">First and Last Month's Rent:</label>
+        <select id="rent" name="rent" required>
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="occupancyType">Occupancy Type:</label>
+        <select id="occupancyType" name="occupancyType" required>
+          <option value="single">Single</option>
+          <option value="couple">Couple</option>
+          <option value="family">Family</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="criminalRecord">Criminal Record:</label>
+        <select id="criminalRecord" name="criminalRecord" onchange="toggleVisibility('criminalRecord', 'criminalExplanation')">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+        <textarea id="criminalExplanation" name="criminalExplanation" placeholder="Explanation" style="display:none" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="employment">Employment:</label>
+        <select id="employment" name="employment" required>
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+
+      <input type="submit" value="Submit Application">
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

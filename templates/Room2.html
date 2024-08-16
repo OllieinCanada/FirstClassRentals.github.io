@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apartment Listing</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body, h1, h2, h3, p { margin: 0; padding: 0; }
+body { font-family: 'Arial', sans-serif; color: #333; background: #f4f4f4; }
+
+.container { width: 80%; max-width: 1200px; margin: auto; padding: 0; }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  background: green; /* Set the background color of the navbar */
+}
+
+.navbar ul { list-style-type: none; display: flex; gap: 25px; }
+.navbar a {
+  text-decoration: none;
+  color: #fff; /* Set the text color to white */
+  font-weight: bold;
+}
+.navbar a:hover { color: yellow; }
+
+.header-section { text-align: center; padding: 20px 0; background: #fff; }
+.header-section h1 { color: #333; font-size: 2.5em; margin-bottom: 10px; }
+
+.images { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.image { cursor: pointer; }
+.image img { width: 400px; height: 400px; object-fit: cover; border-radius: 5px; }
+
+.description { color: #666; line-height: 1.5; }
+
+@media (max-width: 1024px) {
+  .images { flex-direction: column; }
+  .image img { width: auto; height: auto; margin-bottom: 10px; }
+}
+</style>
+</head>
+<body>
+
+<header class="navbar container">
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="About-us.html">About Us</a></li>
+        <li><a href="Apartments.html">Apartments</a></li>
+        <li><a href="Application.html">Applications</a></li>
+      </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <h1 class="title">$745.00 - George Street. All Inclusive</h1>
+    
+    <div class="images">
+        <div class="image" onclick="openImageModal('Room21.jpg')"><img src="Room21.jpg" alt="Main Image"></div>
+        <div class="image" onclick="openImageModal('Room22.jpg')"><img src="Room22.jpg" alt="Second Image"></div>
+        <div class="image" onclick="openImageModal('Room23.jpg')"><img src="Room23.jpg" alt="Third Image"></div>
+        <!-- Add more images as needed -->
+    </div>
+    
+    <p class="description">
+        These modern, purpose-built rooms are situated on George Street, designed to offer a quiet and spacious environment with all amenities included. The residence provides high-speed WiFi, a fully equipped kitchen, a comfortable living area, and a cozy bedroom. Weekly maid service is included to ensure that every room remains clean. Additionally, it is located conveniently near supermarkets and other essential facilities. Ideal for those seeking peace, comfort, and convenience.
+    </p>
+</div>
+
+<script>
+function openImageModal(imageSrc) {
+    var modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    modal.style.display = 'flex';
+    modal.style.justifyContent: 'center';
+    modal.style.alignItems: 'center';
+    modal.style.zIndex = '1000';
+    modal.onclick = function() { document.body.removeChild(modal); };
+
+    var img = document.createElement('img');
+    img.src = imageSrc;
+    img.style.maxWidth = '90vw';
+    img.style.maxHeight = '90vh';
+    img.style.margin = 'auto';
+    img.style.borderRadius = '8px';
+
+    modal.appendChild(img);
+    document.body.appendChild(modal);
+}
+</script>
+
+</body>
+</html>
