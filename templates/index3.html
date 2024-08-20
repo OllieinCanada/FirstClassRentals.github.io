@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First Class Rentals</title>
+<meta name="description" content="First Class Rentals offers luxury rental properties with unmatched amenities and quality. Discover why our residents love us.">
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #000; /* Light Gray */
+    color: #007eff; /* Dark Gray */
+    scroll-behavior: smooth;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+.navbar {
+    position: fixed;
+    top: -100px;
+    z-index: 1000;
+    background: rgba(128, 0, 0, 0.9); /* Burgundy */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: top 0.3s, background-color 0.3s, color 0.3s;
+    width: 100%;
+    font-size: 0.9em; /* Smaller font size */
+}
+.navbar.scrolled {
+    background: rgba(128, 0, 0, 0.9); /* Burgundy */
+    color: #fff;
+    top: 0;
+}
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+.logo-container .glow-logo {
+    position: relative;
+}
+.logo-container .glow-logo img {
+    height: 60px; /* Smaller logo */
+    filter: drop-shadow(0 0 20px #f1c40f); /* Soft Gold */
+}
+.logo-container .glow-logo::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('Logo.png') no-repeat center center;
+    background-size: contain;
+    filter: brightness(0) invert(1) blur(5px);
+    opacity: 0.7;
+    z-index: -1;
+    animation: glow 1.5s infinite alternate;
+}
+@keyframes glow {
+    from {
+        opacity: 0.7;
+        filter: brightness(1) invert(1) blur(10px);
+    }
+    to {
+        opacity: 1;
+        filter: brightness(1) invert(1) blur(10px);
+    }
+}
+.services {
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s;
+}
+.navbar.scrolled .services {
+    color: #fff;
+}
+#navbar-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 30px; /* Adjusted for smaller navbar */
+    right: 0;
+    background: rgba(128, 0, 0, 0.9); /* Burgundy */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    width: 120px; /* Smaller width */
+}
+#navbar-menu.show {
+    display: flex;
+}
+#navbar-menu a {
+    text-decoration: none;
+    color: #fff; /* White text */
+    font-weight: bold;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+#navbar-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Light hover effect */
+}
+#navbar-menu a:last-child {
+    border-bottom: none;
+}
+.header-section {
+    position: relative;
+    color: #f00;
+    background-color: #0783ff; /* Dark Blue */
+}
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+.slideshow-container img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    filter: brightness(70%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.slideshow-container img.active {
+    opacity: 1;
+}
+.header-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+    opacity: 0;
+    animation: fadeInLogo 2s ease-in-out forwards;
+    animation-delay: 1s;
+}
+@keyframes fadeInLogo {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.header-section .content {
+    opacity: 0;
+    animation: fadeInContent 2s ease-in-out forwards;
+    animation-delay: 3s;
+}
+@keyframes fadeInContent {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.header-section .logo {
+    margin: 20px 0;
+    opacity: 0;
+    animation: fadeInLogo 2s ease-in-out forwards;
+}
+.header-section .logo img {
+    max-width: 40%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.header-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #FFFFF0; /* Light Blue */
+}
+.header-section .overlay p {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    max-width: 600px;
+    line-height: 1.6;
+    margin-left: auto;
+    margin-right: auto;
+    color: #aaddff;
+}
+.header-section .overlay .subtitle {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #FAF9F6; /* Light Blue */
+}
+.header-section .overlay .small-text {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #FFFFF0;
+}
+.header-section .cta {
+    display: inline-block;
+    padding: 15px 30px;
+    background: #178cb9; /* Soft Gold */
+    color: #111;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+.header-section .cta:hover {
+    background: #e67e22; /* Orange */
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.about-section {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #610075; /* Dark Blue */
+}
+.about-section h2 {
+    font-size: 2.5em;
+    color: #D65076; /* Soft Gold */
+    margin-bottom: 20px;
+}
+.about-section p {
+    font-size: 1.2em;
+    color: #aaddff;
+    margin-bottom: 20px;
+    max-width: 800px;
+    line-height: 1.6;
+    margin-left: auto;
+    margin-right: auto;
+}
+.features-section {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 20px;
+}
+.feature-box {
+    background-color: #6C244C;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 30%;
+    text-align: center;
+}
+.feature-box h3 {
+    font-size: 1.5em;
+    color: #D2386C; /* Dark Gray */
+    margin-bottom: 10px;
+}
+.feature-box p {
+    font-size: 1.1em;
+    color: #00B324;
+}
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #f00;
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo-container">
+        <div class="glow-logo">
+            <img src="Logo.png" alt="First Class Rentals Logo">
+        </div>
+    </div>
+    <div class="services" aria-label="Services" onclick="toggleMenu()">
+        Services
+    </div>
+    <div id="navbar-menu">
+        <a href="#" onclick="scrollToTop()">Home</a>
+        <a href="#about-us">About Us</a>
+        <a href="#">Apartments</a>
+        <a href="#">Applications</a>
+    </div>
+</div>
+
+<div class="header-section" id="home">
+    <div class="slideshow-container">
+        <img src="Outside2.png" alt="Luxury House 1" loading="lazy">
+        <img src="Outside6.png" class="active" alt="Luxury House 2" loading="lazy">
+        <img src="Outside5.png" alt="Luxury House 3" loading="lazy">
+    </div>
+    <div class="overlay">
+        <div class="logo">
+            <img src="Logo.png" alt="First Class Rentals Logo" style="filter: drop-shadow(100px 100px 100px rgb(0, 8, 255));">
+
+        </div>
+        <div class="content">
+            <h2>What Makes Us A Great Choice?</h2>
+            <p class="subtitle">Convenience, Quality, and a Leisure Living Environment You Can Call Home.</p>
+            <p class="small-text">Discover what stands us apart</p>
+            <a href="#about-us" class="cta">ABOUT US</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="about-section" id="about-us">
+        <h2>About Us</h2>
+        <p>Welcome to First Class Rentals (905-964-7422)</p>
+        <p>We are committed to providing quality living experiences in good locations.</p>
+        <p>Since our inception in 1998, First Class Rentals has been at the forefront of offering quality accommodations for budget-minded renters. Our management team is dedicated to providing safe and comfortable accommodations at a reasonable price in the city of Saint Catharines. Located close to the downtown but still within established neighborhoods. We offer the best of both worlds with being close to the downtown in quiet nearby neighborhoods. Close to bus routes and shopping, our rental units are designed for convenience and personal enjoyment.</p>
+    </div>
+
+    <div class="features-section">
+        <div class="feature-box">
+            <h3>Modern Design</h3>
+            <p>We use latest technology for the latest world because we know the demand of peoples.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Creative Design</h3>
+            <p>We are always creative and always listen our customers and we mix these two things and make beast design.</p>
+        </div>
+        <div class="feature-box">
+            <h3>24 x 7 User Support</h3>
+            <p>If our customer has any problem and any query we are always happy to help them.</p>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2024 First Class Rentals. All rights reserved.</p>
+</footer>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById('navbar-menu');
+    menu.classList.toggle('show');
+}
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slideshow-container img');
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        if (i === index) {
+            slide.classList.add('active');
+        }
+    });
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+}
+
+setInterval(nextSlide, 3000); // Change image every 3 seconds
+
+// Smooth scroll for "About Us" link
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Close the menu when clicking outside
+document.addEventListener('click', function (e) {
+    const menu = document.getElementById('navbar-menu');
+    const services = document.querySelector('.services');
+    if (!menu.contains(e.target) && !services.contains(e.target)) {
+        menu.classList.remove('show');
+    }
+});
+
+// Show navbar on mouse move
+document.addEventListener('mousemove', function () {
+    const navbar = document.querySelector('.navbar');
+    navbar.style.top = '0';
+    clearTimeout(navbar.hideTimeout);
+    navbar.hideTimeout = setTimeout(() => {
+        navbar.style.top = '-100px';
+    }, 2000);
+});
+</script>
+</body>
+</html>

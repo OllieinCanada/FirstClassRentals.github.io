@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Class Rentals</title>
+    <meta name="description" content="First Class Rentals offers luxury rental properties with unmatched amenities and quality. Discover why our residents love us.">
+    <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background-color: #fff;
+        color: #000;
+        scroll-behavior: smooth;
+        opacity: 0;
+        animation: fadeIn 1s forwards;
+    }
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+    .navbar {
+        position: fixed;
+        top: -100px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: top 0.3s, background-color 0.3s, color 0.3s;
+        width: 100%;
+    }
+    .navbar.scrolled {
+        background: rgba(0, 0, 0, 0.9);
+        color: #fff;
+        top: 0;
+    }
+    .logo-container {
+        display: flex;
+        align-items: center;
+    }
+    .logo-container .glow-logo {
+        position: relative;
+    }
+    .logo-container .glow-logo img {
+        height: 90px;
+        filter: drop-shadow(0 0 20px #ff0000);
+    }
+    .logo-container .glow-logo::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('Logo.png') no-repeat center center;
+        background-size: contain;
+        filter: brightness(0) invert(1) blur(5px);
+        opacity: 0.7;
+        z-index: -1;
+        animation: glow 1.5s infinite alternate;
+    }
+    @keyframes glow {
+        from {
+            opacity: 0.7;
+            filter: brightness(5) invert(1) blur(10px);
+        }
+        to {
+            opacity: 1;
+            filter: brightness(5) invert(1) blur(10px);
+        }
+    }
+    .services {
+        cursor: pointer;
+        font-size: 1.2em;
+        font-weight: bold;
+        position: relative;
+        transition: color 0.3s;
+    }
+    .navbar.scrolled .services {
+        color: #fff;
+    }
+    #navbar-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 40px;
+        right: 0;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        padding: 10px;
+        width: 150px;
+    }
+    #navbar-menu.show {
+        display: flex;
+    }
+    #navbar-menu a {
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+    #navbar-menu a:hover {
+        background-color: #f0f0f0;
+    }
+    #navbar-menu a:last-child {
+        border-bottom: none;
+    }
+    .header-section {
+        position: relative;
+        color: #fff;
+    }
+    .slideshow-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .slideshow-container img {
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        filter: brightness(50%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+    }
+    .slideshow-container img.active {
+        opacity: 1;
+    }
+    .header-section .overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        text-align: center;
+        width: 100%;
+        padding: 20px;
+        opacity: 0;
+        animation: fadeInUp 0.5s ease-in-out forwards;
+        animation-delay: 1s; /* Start after the fadeIn of the body */
+    }
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translate(-50%, 20%);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+    }
+    .header-section h1 {
+        font-size: 4em;
+        margin-bottom: 20px;
+        letter-spacing: 3px;
+        color: #00aaff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .header-section .logo {
+        margin: 20px 0;
+    }
+    .header-section h2 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        color: #00ccff;
+    }
+    .header-section .overlay p {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        max-width: 600px;
+        line-height: 1.6;
+        margin-left: auto;
+        margin-right: auto;
+        color: #aaddff;
+    }
+    .header-section .overlay .subtitle {
+        font-size: 2em;
+        margin-bottom: 20px;
+        color: #00ccff;
+    }
+    .header-section .overlay .small-text {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: #88ddff;
+    }
+    .header-section .cta {
+        display: inline-block;
+        padding: 15px 30px;
+        background: #00ccff;
+        color: #111;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+    .header-section .cta:hover {
+        background: #00aaff;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .about-section {
+        text-align: center;
+        padding: 50px 20px;
+    }
+    .about-section h2 {
+        font-size: 2.5em;
+        color: #00ccff;
+        margin-bottom: 20px;
+    }
+    .about-section p {
+        font-size: 1.2em;
+        color: #aaddff;
+        margin-bottom: 20px;
+        max-width: 800px;
+        line-height: 1.6;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .features-section {
+        display: flex;
+        justify-content: space-around;
+        padding: 50px 20px;
+    }
+    .feature-box {
+        background-color: #000e5f;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 30%;
+        text-align: center;
+    }
+    .feature-box h3 {
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    .feature-box p {
+        font-size: 1.1em;
+        color: #000000;
+    }
+    .footer {
+        text-align: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #000000;
+    }
+    </style>
+    </head>
+    <body>
+    
+    <div class="navbar scrolled" style="top: 0px;">
+        <div class="logo-container">
+            <div class="glow-logo">
+                <img src="Logo.png" alt="First Class Rentals Logo">
+            </div>
+        </div>
+        <div class="services" aria-label="Services" onclick="toggleMenu()">
+            Services
+        </div>
+        <div id="navbar-menu">
+            <a href="#" onclick="scrollToTop()">Home</a>
+            <a href="#about-us">About Us</a>
+            <a href="#">Apartments</a>
+            <a href="#">Applications</a>
+        </div>
+    </div>
+    
+    <div class="header-section" id="home">
+        <div class="slideshow-container">
+            <img src="Outside2.png" alt="Luxury House 1" loading="lazy" class="">
+            <img src="Outside6.png" class="" alt="Luxury House 2" loading="lazy">
+            <img src="Outside5.png" alt="Luxury House 3" loading="lazy" class="active">
+        </div>
+        <div class="overlay">
+            <h1>FIRST CLASS RENTALS</h1>
+            <div class="logo">
+                <svg width="50" height="50" viewBox="0 0 24 24" fill="#00ccff" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3L2 12h3v7h14v-7h3L12 3zM12 5.69L19 12H5l7-6.31zm0 3.87L15 12H9l3-2.44zM12 15h-1v3h-2v-4H7v4H5v-7h14v7h-2v-4h-2v4h-2v-3h-1v3z"></path>
+                </svg>
+            </div>
+            <h2>Why Choose Us?</h2>
+            <p class="subtitle">Unrivaled amenities, unmatched quality, and a community you can call home.</p>
+            <p class="small-text">Find out why our residents love us!</p>
+            <a href="#about-us" class="cta">ABOUT US</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="about-section" id="about-us">
+            <h2>About Us</h2>
+            <p>Welcome to First Class Rentals (905-964-7422)</p>
+            <p>We are committed to providing quality living experiences in good locations.</p>
+            <p>Since our inception in 1998, First Class Rentals has been at the forefront of offering quality accommodations for budget-minded renters. Our management team is dedicated to providing safe and comfortable accommodations at a reasonable price in the city of Saint Catharines. Located close to the downtown but still within established neighborhoods. We offer the best of both worlds with being close to the downtown in quiet nearby neighborhoods. Close to bus routes and shopping, our rental units are designed for convenience and personal enjoyment.</p>
+        </div>
+    
+        <div class="features-section">
+            <div class="feature-box">
+                <h3>Modern Design</h3>
+                <p>We use latest technology for the latest world because we know the demand of peoples.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Creative Design</h3>
+                <p>We are always creative and always listen our customers and we mix these two things and make beast design.</p>
+            </div>
+            <div class="feature-box">
+                <h3>24 x 7 User Support</h3>
+                <p>If our customer has any problem and any query we are always happy to help them.</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>© 2024 First Class Rentals. All rights reserved.</p>
+    </footer>
+    
+    <script>
+    function toggleMenu() {
+        const menu = document.getElementById('navbar-menu');
+        menu.classList.toggle('show');
+    }
+    
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slideshow-container img');
+    
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            if (i === index) {
+                slide.classList.add('active');
+            }
+        });
+    }
+    
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+    
+    setInterval(nextSlide, 3000); // Change image every 3 seconds
+    
+    // Smooth scroll for "About Us" link
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Close the menu when clicking outside
+    document.addEventListener('click', function (e) {
+        const menu = document.getElementById('navbar-menu');
+        const services = document.querySelector('.services');
+        if (!menu.contains(e.target) && !services.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
+    
+    // Change navbar background color on scroll
+    window.addEventListener('scroll', function () {
+        const navbar = document.querySelector('.navbar');
+        navbar.classList.add('scrolled');
+    });
+    
+    // Show navbar on mouse move
+    document.addEventListener('mousemove', function () {
+        const navbar = document.querySelector('.navbar');
+        navbar.style.top = '0';
+    });
+    </script>
+    
+    
+    
+    </body></html>

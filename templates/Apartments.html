@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment Listings - First Class Rentals</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #ecf0f1; /* Light Gray */
+            color: #2c3e50; /* Dark Gray */
+            scroll-behavior: smooth;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            background-color: #2c3e50; /* Dark Blue background */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container .glow-logo img {
+            height: 70px; /* Adjusted logo size */
+            filter: drop-shadow(0 0 20px #3498db); /* Light Blue */
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-size: 1.6em; /* Font size matches */
+            color: #9b9b9b; /* Color for better visibility */
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #3498db; /* Light Blue */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 100px; /* Ensure content isn't hidden under the navbar */
+        }
+        .listing {
+            display: flex;
+            background: #fff;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 2px solid transparent;
+            animation: fadeInUp 1s ease-in-out forwards;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+        }
+        .listing:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(52, 152, 219, 0.3), transparent); /* Lighter blue, starting from bottom */
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .listing:hover:before {
+            opacity: 1;
+        }
+        .listing:hover {
+            border-color: #3498db; /* Light Blue */
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3); /* Lightened blue shadow */
+            transform: translateY(-5px);
+            transition: transform 0.3s;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .listing img {
+            width: 150px;
+            height: 100px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .listing-info {
+            flex-grow: 1;
+        }
+        .listing-info h3 {
+            color: #2c3e50; /* Dark Gray */
+            margin-bottom: 5px;
+        }
+        .listing-info h3 a {
+            color: #2c3e50; /* Dark Gray */
+            text-decoration: none;
+        }
+        .listing-info h3 a:hover {
+            color: #3498db; /* Light Blue on hover */
+        }
+        .listing-info p {
+            color: #666;
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            .navbar ul {
+                flex-direction: column;
+                display: none;
+            }
+            .navbar a {
+                display: block;
+                padding: 10px;
+            }
+            .listing {
+                flex-direction: column;
+                align-items: center;
+            }
+            .listing img {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo-container">
+        <div class="glow-logo">
+            <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo.png" alt="First Class Rentals Logo">
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#about-us">About Us</a>
+        <a href="Apartments.html">Apartments</a>
+        <a href="Application.html">Applications</a>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Sample listing 1 -->
+    <a href="Room1.html" class="listing">
+        <img src="Apartment.jpg" alt="Apartment Image">
+        <div class="listing-info">
+            <h3>$745.00 - Geneva Street Modern. Quiet, spacious, WiFi, Clean</h3>
+            <p>Modern, purpose-built student residence for McMaster University. Professionally managed...</p>
+        </div>
+    </a>
+
+    <!-- Sample listing 2 -->
+    <a href="Room2.html" class="listing">
+        <img src="Apartment1.jpg" alt="Apartment Image">
+        <div class="listing-info">
+            <h3>$475.00 - George Street Modern. All Inclusive</h3>
+            <p>Room for rent for June, and July. Close to all amenities, high speed WiFi, all inclusive...</p>
+        </div>
+    </a>
+
+    <!-- Sample listing 3 -->
+    <a href="detail3.html" class="listing">
+        <img src="Apartment3.jpg" alt="Apartment Image">
+        <div class="listing-info">
+            <h3>$595.00 - ROOM FOR RENT 2 MINUTES WALKING FROM MCMASTER</h3>
+            <p>2 MINUTES WALKING DISTANCE FROM MCMASTER WITH PARKING. 4 MONTH SUBLET...</p>
+        </div>
+    </a>
+</div>
+
+</body>
+</html>
