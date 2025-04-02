@@ -1,0 +1,23 @@
+steps:
+# This step uses Buildpacks to build your application
+- name: 'gcr.io/k8s-skaffold/pack'
+  entrypoint: pack
+  args:
+  - build
+  # Define the name for the container image that will be built
+  # Example: gcr.io/your-project-id/app-name:$COMMIT_SHA
+  # Using placeholders Cloud Build provides:
+  - 'gcr.io/YOUR_PROJECT_ID/$REPO_NAME/$BRANCH_NAME:$COMMIT_SHA'
+  # Specify the builder image (Google standard builder)
+  - --builder=gcr.io/buildpacks/builder
+  # *** IMPORTANT: Specify the correct path to your application code ***
+  - --path=templates
+
+# Specify the image(s) to push to Google Container Registry (GCR)
+# This should match the image name used in the 'pack build' command
+images:
+- 'gcr.io/YOUR_PROJECT_ID/$REPO_NAME/$BRANCH_NAME:$COMMIT_SHA'
+
+# *** IMPORTANT: Add this 'options' section to fix the logging error ***
+options:
+  logging: CLOUD_LOGGING_ONLY
