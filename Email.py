@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -15,8 +15,6 @@ def send_email_with_attachment(to_address, file_path):
     subject = "Completed Application - First Class Apartments"
     body = "Please find the attached completed rental application."
 
-    print("Preparing the email message...")
-    
     # Create the email message
     msg = MIMEMultipart()
     msg['From'] = from_address
@@ -26,17 +24,11 @@ def send_email_with_attachment(to_address, file_path):
 
     # Attach the file
     attachment = MIMEBase('application', 'octet-stream')
-    try:
-        with open(file_path, 'rb') as file:
-            attachment.set_payload(file.read())
-        encoders.encode_base64(attachment)
-        attachment.add_header('Content-Disposition', f'attachment; filename={os.path.basename(file_path)}')
-        msg.attach(attachment)
-    except Exception as e:
-        print(f"Failed to read the file. Error: {str(e)}")
-        return
-
-    print("Connecting to the SMTP server...")
+    with open(file_path, 'rb') as file:
+        attachment.set_payload(file.read())
+    encoders.encode_base64(attachment)
+    attachment.add_header('Content-Disposition', f'attachment; filename={os.path.basename(file_path)}')
+    msg.attach(attachment)
 
     # Connect to the SMTP server and send the email
     try:
@@ -50,12 +42,15 @@ def send_email_with_attachment(to_address, file_path):
         print(f"Failed to send email. Error: {str(e)}")
 
 @app.route('/')
-def send_email():
-    recipient_email = "OliverSlapinski@hotmail.com"  # Specify the recipient's email address
+def index():
+    return render_template('Application.html')
+
+@app.route('/submit_application', methods=['POST'])
+def submit_application():
+    # Here you would handle the form data, for this example we assume the form is valid
+    recipient_email = "OliverSlapinski@hotmail.com"
     pdf_file = "application-3.pdf"  # Ensure this file exists in the same directory as app.py
     
-    print("Sending email with the completed application...")
-
     # Send email with PDF attachment
     send_email_with_attachment(recipient_email, pdf_file)
     

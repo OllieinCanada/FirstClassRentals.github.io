@@ -1,0 +1,51 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body, h1, h2, h3, p { margin: 0; padding: 0; }
+body { font-family: 'Arial', sans-serif; color: #333; background: #f4f4f4; }
+
+.container { width: 80%; max-width: 1200px; margin: auto; }
+
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; background: #fff; }
+.navbar ul { list-style-type: none; display: flex; gap: 20px; }
+.navbar a { text-decoration: none; color: #333; font-weight: bold; }
+.navbar a:hover { color: #000; }
+
+.nav-toggle { display: none; }
+.nav-toggle-label { display: none; cursor: pointer; }
+
+.hero { background: url('path-to-your-hero-image.jpg') no-repeat center center; background-size: cover; padding: 50px 0; text-align: center; }
+.hero h1 { color: #fff; font-size: 2.5em; }
+
+.section { padding: 50px 0; }
+.section h2 { text-align: left; color: #333; margin-bottom: 20px; }
+/* ... existing styles ... */
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: auto;
+    padding-left: 0; /* Add this line if you want the content to align to the left without padding */
+  }
+  
+  .section h2 {
+    text-align: left; /* This ensures the text aligns to the left */
+    padding-left: 0; /* This ensures there's no padding on the left side of the title */
+    margin-left: 0; /* This ensures there's no margin on the left side of the title */
+    /* If the h2 is still not to the left, you might want to check if the .container class has padding or margin that is pushing it. */
+  }
+  
+  /* ... remaining styles ... */
+  
+.section .cards { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+
+.card { background: #fff; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.card:hover { box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+
+.footer { background: #333; color: #fff; text-align: center; padding: 20px 0; }
+
+@media (max-width: 768px) {
+  .navbar ul { flex-direction: column; display: none; }
+  .nav-toggle { display: block; }
+  .nav-toggle-label { display: block; }
+  .section .cards { flex-direction: column; }
+  .section h2 { text-align: center; } /* Center the title on smaller screens if desired */
+}

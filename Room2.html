@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Listings - First Class Rentals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Basic Body Styles */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed; top: 0; z-index: 1000;
+            background-color: #2c3e50; padding: 10px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%;
+        }
+        .logo-container { display: flex; align-items: center; }
+        .logo-container .glow-logo img { height: 70px; filter: drop-shadow(0 0 20px #3498db); }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a {
+            text-decoration: none; font-size: 1.6em; color: #9b9b9b;
+            font-weight: bold; transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #3498db; }
+
+        /* Container Style */
+        .container {
+            max-width: 1200px; margin: 0 auto; padding: 20px;
+            padding-top: 100px; /* Account for fixed navbar */
+        }
+
+        /* --- Content Styles --- */
+        .title {
+             color: #333; font-size: 2.5em; margin-bottom: 20px; text-align: center;
+        }
+
+        /* Updated Image Container Styles */
+        .images {
+            display: flex;
+            /* Push outer images to edges, distribute space within */
+            justify-content: space-between;
+            gap: 15px; /* Space between images */
+            margin-bottom: 20px;
+             /* flex-wrap: wrap; Removed - we want them inline until media query */
+        }
+
+        /* Updated Individual Image Wrapper Styles */
+        .image {
+            cursor: pointer;
+            text-align: center;
+            /* Calculate width: (100% container - total gaps) / number of images */
+            flex-basis: calc((100% - 30px) / 3);
+            /* Prevents growing beyond calculated basis if container is larger */
+             max-width: calc((100% - 30px) / 3);
+        }
+
+        /* Updated Image Styles */
+        .image img {
+             display: block; /* Better control */
+             width: 100%;   /* Fill the parent .image container */
+             height: auto;  /* Maintain aspect ratio automatically */
+             aspect-ratio: 1 / 1; /* Force square shape */
+             object-fit: cover; /* Cover the square area without distortion */
+             border-radius: 5px;
+             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+             transition: transform 0.3s ease;
+        }
+         .image img:hover {
+             transform: scale(1.03);
+         }
+
+        .description {
+             color: #555; line-height: 1.7; background-color: #fff;
+             padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+             text-align: justify; margin-top: 20px;
+        }
+
+        /* --- Responsive Adjustments --- */
+
+        /* Stack images on smaller screens */
+        @media (max-width: 800px) { /* Adjusted breakpoint */
+            .images {
+                flex-direction: column; /* Stack vertically */
+                align-items: center; /* Center stacked items */
+                gap: 20px; /* Adjust gap for vertical stacking */
+            }
+            .image {
+                /* Take up most of the width when stacked */
+                flex-basis: 90%;
+                max-width: 400px; /* Limit size even when stacked */
+            }
+            /* Image aspect ratio remains 1/1 */
+        }
+
+        /* Adjustments for Navbar and Title on medium/small screens */
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; padding: 10px; }
+            .nav-links { margin-top: 10px; gap: 15px; }
+            .nav-links a { font-size: 1.4em; padding: 5px 0; }
+            .container { padding-top: 150px; } /* More padding for stacked navbar */
+            .title { font-size: 2em; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo-container">
+        <div class="glow-logo">
+            <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo.png" alt="First Class Rentals Logo">
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#about-us">About Us</a>
+        <a href="Listings.html">Listings</a>
+        <a href="Application.html">Applications</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="title">$745.00 - George Street. All Inclusive</h1>
+
+    <div class="images">
+        <div class="image" onclick="openImageModal('Room21.jpg')"><img src="Room21.jpg" alt="Main Image"></div>
+        <div class="image" onclick="openImageModal('Room22.jpg')"><img src="Room22.jpg" alt="Second Image"></div>
+        <div class="image" onclick="openImageModal('Room23.jpg')"><img src="Room23.jpg" alt="Third Image"></div>
+    </div>
+
+    <p class="description">
+        These modern, purpose-built rooms are situated on George Street, designed to offer a quiet and spacious environment with all amenities included. The residence provides high-speed WiFi, a fully equipped kitchen, a comfortable living area, and a cozy bedroom. Weekly maid service is included to ensure that every room remains clean. Additionally, it is located conveniently near supermarkets and other essential facilities. Ideal for those seeking peace, comfort, and convenience.
+    </p>
+</div>
+
+<script>
+function openImageModal(imageSrc) {
+    var modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0'; modal.style.left = '0';
+    modal.style.width = '100vw'; modal.style.height = '100vh';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+    modal.style.display = 'flex'; modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center'; modal.style.zIndex = '2000';
+    modal.style.cursor = 'pointer';
+    modal.onclick = function() { document.body.removeChild(modal); };
+
+    var img = document.createElement('img');
+    img.src = imageSrc;
+    img.style.maxWidth = '90vw'; img.style.maxHeight = '90vh';
+    img.style.margin = 'auto'; img.style.borderRadius = '8px';
+    img.style.display = 'block'; img.style.cursor = 'default';
+    img.onclick = function(event) { event.stopPropagation(); };
+
+    modal.appendChild(img);
+    document.body.appendChild(modal);
+}
+</script>
+
+</body>
+</html>

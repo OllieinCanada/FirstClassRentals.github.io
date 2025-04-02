@@ -1,0 +1,373 @@
+import functions_framework
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+import os
+import flask # Used for type hinting and request object
+import io     # For handling in-memory files/streams if needed
+import re     # For sanitizing filename
+from xhtml2pdf import pisa # Import the PDF generator
+
+# --- WARNING: Security Risk ---
+# Use Google Secret Manager or environment variables for production.
+FROM_ADDRESS = "wrestler-boy1@live.com"
+FROM_PASSWORD = "ppuqedcoerkoixaj" # <-- Replace with secure method!
+# --- End Warning ---
+
+# --- Helper Function: Sanitize Filename ---
+def sanitize_filename(name):
+    """Removes invalid characters and replaces spaces for filenames."""
+    name = re.sub(r'[^\w\s-]', '', name).strip() # Remove invalid chars
+    name = re.sub(r'[-\s]+', '_', name)       # Replace spaces/hyphens with underscore
+    return name if name else "Application"     # Default name if empty
+
+# --- Helper Function: Create HTML content for PDF ---
+def create_html_for_pdf(form_data):
+    """Generates HTML string from form data for PDF conversion."""
+    # Extract signature data URIs - handle if they are missing
+    sig_main = form_data.get('signature', '')
+    sig_1 = form_data.get('signature1', '')
+    sig_2 = form_data.get('signature2', '')
+
+    # Basic CSS for PDF readability (inline or within <style>)
+    # Keep styles simple as xhtml2pdf has limitations
+    html_style = """
+    <style>
+        @page { size: letter portrait; margin: 1cm; }
+        body { font-family: sans-serif; font-size: 10pt; }
+        h1, h2, h3 { color: #333; margin-bottom: 0.5em; padding-top: 0.5em;}
+        h1 { font-size: 16pt; text-align: center; border-bottom: 1px solid #333; margin-bottom: 1em;}
+        h2 { font-size: 13pt; border-bottom: 1px solid #ccc; }
+        .form-section { margin-bottom: 1em; }
+        .form-item { margin-bottom: 5px; }
+        .form-label { font-weight: bold; display: inline-block; width: 220px; vertical-align: top; padding-right: 10px;}
+        .form-value { display: inline-block; vertical-align: top; }
+        .checkbox-label { margin-left: 5px; font-weight: normal;}
+        .signature-block { margin-top: 0.5em; margin-bottom: 1em; border: 1px solid #ccc; padding: 5px; display: inline-block; min-height: 60px; }
+        .signature-block img { max-width: 250px; max-height: 80px; display: block; }
+        .centered { text-align: center; margin: 1em 0; }
+        .large-text { font-size: 1.1em; font-weight: bold; }
+        .indent { margin-left: 20px; }
+    </style>
+    """
+
+    # Build HTML content using f-strings
+    # Ensure all form fields are included here
+    html_content = f"""
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="UTF-8"><title>Application to Rent</title>{html_style}</head>
+    <body>
+        <h1>Application to Rent - First Class Apartments</h1>
+
+        <div class="form-section">
+            <h2>Applicant & Contact</h2>
+            <div class="form-item"><span class="form-label">Applicant's Name:</span><span class="form-value">{form_data.get('applicant_name', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Address of Rental Sought:</span><span class="form-value">{form_data.get('address_of_rental', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Contact Number:</span><span class="form-value">{form_data.get('contact_number', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Email:</span><span class="form-value">{form_data.get('email', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Worker's Name (if applicable):</span><span class="form-value">{form_data.get('workers_name', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Worker's Contact:</span><span class="form-value">{form_data.get('workers_contact_number', '')} Ext: {form_data.get('workers_ext', '')}</span></div>
+        </div>
+
+        <div class="centered large-text">APPLICATION TO RENT</div>
+        <div class="centered">LANDLORD'S INFORMATION SHEET</div>
+
+        <div class="form-section">
+            <h2>Application Details</h2>
+            <div class="form-item"><span class="form-label">Date Submitted:</span><span class="form-value">{form_data.get('date', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Address of Premises:</span><span class="form-value">{form_data.get('address_of_premises', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Desired Occupancy Date:</span><span class="form-value">{form_data.get('occupancy_date', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Applicant's Legal Name:</span><span class="form-value">{form_data.get('legal_name', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Preferred Name:</span><span class="form-value">{form_data.get('preferred_name', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Date of Birth:</span><span class="form-value">{form_data.get('date_of_birth', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Social Insurance Number:</span><span class="form-value">{form_data.get('social_insurance_number', 'Provided')}</span></div>
+            <div class="form-item"><span class="form-label">Driver's License Number:</span><span class="form-value">{form_data.get('drivers_license_number', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Province/Territory Issued:</span><span class="form-value">{form_data.get('province_issued', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Make/Model of Auto(s):</span><span class="form-value">{form_data.get('make_model_auto', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Year:</span><span class="form-value">{form_data.get('year', 'N/A')}</span></div>
+            <div class="form-item"><span class="form-label">Plate Number:</span><span class="form-value">{form_data.get('plate_number', 'N/A')}</span></div>
+        </div>
+
+        <div class="form-section">
+            <h2>Residence History</h2>
+            <h3>Present Residence</h3>
+            <div class="indent">
+                <div class="form-item"><span class="form-label">Address:</span><span class="form-value">{form_data.get('present_residence', 'N/A')}</span></div>
+                <div class="form-item"><span class="form-label">How long at address:</span><span class="form-value">{form_data.get('how_long_present', 'N/A')}</span></div>
+                <div class="form-item"><span class="form-label">Landlord's Phone:</span><span class="form-value">{form_data.get('landlord_phone_present', 'N/A')}</span></div>
+            </div>
+            <h3>Previous Residence</h3>
+             <div class="indent">
+                <div class="form-item"><span class="form-label">Address:</span><span class="form-value">{form_data.get('previous_address', 'N/A')}</span></div>
+                <div class="form-item"><span class="form-label">How long at address:</span><span class="form-value">{form_data.get('how_long_previous', 'N/A')}</span></div>
+                <div class="form-item"><span class="form-label">Landlord's Phone:</span><span class="form-value">{form_data.get('landlord_phone_previous', 'N/A')}</span></div>
+            </div>
+        </div>
+
+        <div class="form-section">
+             <h2>Other Information</h2>
+             <div class="form-item"><span class="form-label">Ever before rent tribunal?</span><span class="form-value">{form_data.get('rent_tribunal', 'N/A')}</span></div>
+             {'<div class="indent form-item"><span class="form-label">Reason:</span><span class="form-value">{}</span></div>'.format(form_data.get('reason', 'N/A')) if form_data.get('rent_tribunal') == 'yes' else ''}
+             {'<div class="indent form-item"><span class="form-label">Outcome:</span><span class="form-value">{}</span></div>'.format(form_data.get('outcome', 'N/A')) if form_data.get('rent_tribunal') == 'yes' else ''}
+             <div class="form-item"><span class="form-label">Consent to credit check?</span><span class="form-value">{form_data.get('credit_check', 'N/A')}</span></div>
+             <div class="form-item"><span class="form-label">Approx. Monthly Income ($):</span><span class="form-value">{form_data.get('monthly_income', 'N/A')}</span></div>
+             <div class="form-item"><span class="form-label">Sources of Income:</span><span class="form-value">{form_data.get('sources', 'N/A')}</span></div>
+        </div>
+
+        <div class="form-section">
+            <h2>Agreements & Understanding</h2>
+            <p>Applicant acknowledges the following (indicated by checkbox):</p>
+            <div class="form-item">{'☑' if form_data.get('garbage') == 'on' else '☐'}<span class="checkbox-label">Garbage removal responsibility.</span></div>
+            <div class="form-item">{'☑' if form_data.get('no_cats') == 'on' else '☐'}<span class="checkbox-label">Pets not permitted (NO CATS).</span></div>
+            <div class="form-item">{'☑' if form_data.get('snow') == 'on' else '☐'}<span class="checkbox-label">Snow shoveling responsibility.</span></div>
+            <div class="form-item">{'☑' if form_data.get('drapes') == 'on' else '☐'}<span class="checkbox-label">Requirement for proper drapes.</span></div>
+            <div class="form-item">{'☑' if form_data.get('cable') == 'on' else '☐'}<span class="checkbox-label">Cable/appliances not included.</span></div>
+            <div class="form-item">{'☑' if form_data.get('single_person') == 'on' else '☐'}<span class="checkbox-label">Single person occupancy per bylaw.</span></div>
+            <div class="form-item">{'☑' if form_data.get('no_noise') == 'on' else '☐'}<span class="checkbox-label">No noise after 11:00 PM.</span></div>
+            <div class="form-item">{'☑' if form_data.get('no_loud_music') == 'on' else '☐'}<span class="checkbox-label">No loud music.</span></div>
+            <div class="form-item">{'☑' if form_data.get('rent_paid') == 'on' else '☐'}<span class="checkbox-label">Rent due 1st of month in full.</span></div>
+            <div class="form-item">{'☑' if form_data.get('smoke_detectors') == 'on' else '☐'}<span class="checkbox-label">No tampering with smoke detectors. Report issues immediately.</span></div>
+             <p>Initial Understanding:</p>
+            <div class="signature-block">
+                {f'<img src="{sig_main}" alt="Signature Initials">' if sig_main else 'Not Provided'}
+            </div>
+        </div>
+
+         <div class="form-section">
+             <h2>Emergency Contacts</h2>
+             <h3>Primary Contact</h3>
+              <div class="indent">
+                 <div class="form-item"><span class="form-label">Name:</span><span class="form-value">{form_data.get('emergency_contact_name', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Relationship:</span><span class="form-value">{form_data.get('emergency_contact_relationship', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Address:</span><span class="form-value">{form_data.get('emergency_contact_city', '')}, {form_data.get('emergency_contact_province', '')} {form_data.get('emergency_contact_postal', '')}</span></div>
+                 <div class="form-item"><span class="form-label">Day Phone:</span><span class="form-value">{form_data.get('emergency_contact_day_phone', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Evening Phone:</span><span class="form-value">{form_data.get('emergency_contact_evening_phone', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Cell Phone:</span><span class="form-value">{form_data.get('emergency_contact_cell', 'N/A')}</span></div>
+              </div>
+             <h3>Alternate Contact</h3>
+              <div class="indent">
+                 <div class="form-item"><span class="form-label">Name:</span><span class="form-value">{form_data.get('alt_emergency_contact_name', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Relationship:</span><span class="form-value">{form_data.get('alt_emergency_contact_relationship', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Address:</span><span class="form-value">{form_data.get('alt_emergency_contact_city', '')}, {form_data.get('alt_emergency_contact_province', '')} {form_data.get('alt_emergency_contact_postal', '')}</span></div>
+                 <div class="form-item"><span class="form-label">Day Phone:</span><span class="form-value">{form_data.get('alt_emergency_contact_day_phone', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Evening Phone:</span><span class="form-value">{form_data.get('alt_emergency_contact_evening_phone', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Cell Phone:</span><span class="form-value">{form_data.get('alt_emergency_contact_cell', 'N/A')}</span></div>
+              </div>
+         </div>
+
+         <div class="form-section">
+             <h2>Employment Information</h2>
+             <h3>Applicant</h3>
+              <div class="indent">
+                 <div class="form-item"><span class="form-label">Employed by:</span><span class="form-value">{form_data.get('applicant_employed_by', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Occupation:</span><span class="form-value">{form_data.get('applicant_occupation', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Office Phone #:</span><span class="form-value">{form_data.get('applicant_office_phone', 'N/A')}</span></div>
+              </div>
+             <h3>Spouse/Other Occupant</h3>
+              <div class="indent">
+                 <div class="form-item"><span class="form-label">Employed by:</span><span class="form-value">{form_data.get('employed_by', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Occupation:</span><span class="form-value">{form_data.get('employed_occupation', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Office Phone #:</span><span class="form-value">{form_data.get('employed_office_phone', 'N/A')}</span></div>
+              </div>
+         </div>
+
+         <div class="form-section">
+             <h2>References</h2>
+             <h3>Reference 1</h3>
+              <div class="indent">
+                 <div class="form-item"><span class="form-label">Name:</span><span class="form-value">{form_data.get('reference1', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Phone #:</span><span class="form-value">{form_data.get('reference1_phone', 'N/A')}</span></div>
+              </div>
+              <h3>Reference 2</h3>
+               <div class="indent">
+                 <div class="form-item"><span class="form-label">Name:</span><span class="form-value">{form_data.get('reference2', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Phone #:</span><span class="form-value">{form_data.get('reference2_phone', 'N/A')}</span></div>
+               </div>
+         </div>
+
+        <div class="form-section">
+            <h2>Signatures & Declaration</h2>
+            <p>The applicant declares all above statements to be true and accurate. This information is confidential and will not be released to anyone without the consent of the applicant.</p>
+            <div>
+                <p>Applicant Signature 1:</p>
+                <div class="signature-block">
+                    {f'<img src="{sig_1}" alt="Signature 1">' if sig_1 else 'Not Provided'}
+                </div>
+                <div class="form-item"><span class="form-label">Date:</span><span class="form-value">{form_data.get('signature1_date', 'N/A')}</span></div>
+            </div>
+             <div>
+                <p>Applicant Signature 2 (if applicable):</p>
+                 <div class="signature-block">
+                     {f'<img src="{sig_2}" alt="Signature 2">' if sig_2 else 'Not Provided / N/A'}
+                </div>
+                 <div class="form-item"><span class="form-label">Date:</span><span class="form-value">{form_data.get('signature2_date', 'N/A')}</span></div>
+            </div>
+            <div>
+                 <div class="form-item"><span class="form-label">Witness:</span><span class="form-value">{form_data.get('witness', 'N/A')}</span></div>
+                 <div class="form-item"><span class="form-label">Witness Date:</span><span class="form-value">{form_data.get('witness_date', 'N/A')}</span></div>
+             </div>
+        </div>
+
+    </body></html>
+    """
+    return html_content
+
+# --- Function to generate PDF ---
+def generate_pdf_from_data(form_data, output_path):
+    """Generates a PDF file from HTML content created from form data."""
+    print(f"Generating PDF at path: {output_path}")
+    try:
+        # 1. Create HTML content
+        html_content = create_html_for_pdf(form_data)
+
+        # 2. Open the output file path in binary write mode
+        with open(output_path, "wb") as result_file:
+            # 3. Convert HTML to PDF
+            pisa_status = pisa.CreatePDF(
+                io.StringIO(html_content),  # Use StringIO to treat string as file
+                dest=result_file,
+                encoding='UTF-8' # Ensure UTF-8 encoding
+            )
+
+        # 4. Check if PDF generation was successful
+        if pisa_status.err:
+            print(f"Error generating PDF: {pisa_status.err}")
+            return False
+        else:
+            print("PDF generated successfully.")
+            return True
+
+    except Exception as e:
+        print(f"An exception occurred during PDF generation: {str(e)}")
+        import traceback
+        print(traceback.format_exc()) # Print full traceback for debugging
+        return False
+
+# --- Function to send email (remains mostly the same) ---
+def send_email_with_attachment(to_address, file_path):
+    """Sends an email with the specified file attachment."""
+    from_address = FROM_ADDRESS
+    from_password = FROM_PASSWORD # Use the variable defined above
+    # Use applicant's name in subject if available, otherwise generic
+    subject = f"Completed Application - First Class Apartments" # Keep subject generic or pass name if needed
+    body = "Please find the attached completed rental application."
+
+    print(f"Preparing email for: {to_address}")
+    print(f"Attaching file: {file_path}")
+
+    msg = MIMEMultipart()
+    msg['From'] = from_address
+    msg['To'] = to_address
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'plain'))
+
+    # Attach the file
+    if not os.path.exists(file_path):
+         print(f"Error: Attachment file not found at path: {file_path}")
+         return False # Indicate failure
+
+    attachment_filename = os.path.basename(file_path)
+    try:
+        with open(file_path, "rb") as attachment_file:
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload(attachment_file.read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', f"attachment; filename={attachment_filename}")
+        msg.attach(part)
+        print(f"File {attachment_filename} attached successfully.")
+    except Exception as e:
+        print(f"Failed to read or attach the file '{file_path}'. Error: {str(e)}")
+        return False # Indicate failure
+
+    print("Connecting to SMTP server (smtp-mail.outlook.com:587)...")
+    try:
+        server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+        server.starttls()
+        print("Logging into SMTP server...")
+        server.login(from_address, from_password)
+        print("Sending email...")
+        server.send_message(msg)
+        server.quit()
+        print(f"Email sent successfully to {to_address}!")
+        return True # Indicate success
+    except smtplib.SMTPAuthenticationError as e:
+         print(f"SMTP Authentication Error: Check email/app password. Error: {str(e)}")
+         return False # Indicate failure
+    except Exception as e:
+        print(f"Failed to send email via SMTP. Error: {str(e)}")
+        return False # Indicate failure
+
+# --- Main HTTP Cloud Function ---
+@functions_framework.http
+def hello_http(request: flask.Request):
+    """
+    HTTP Cloud Function triggered by a POST request containing form data.
+    Generates a PDF from the data and emails it.
+    """
+    # --- Handle Request Method ---
+    if request.method != 'POST':
+        print(f"Received {request.method} request, expecting POST.")
+        # Allow GET for simple testing or info page? Optional.
+        # For now, only allow POST.
+        return 'Method Not Allowed. Please POST form data.', 405
+
+    print("Received POST request. Processing form data...")
+
+    # --- Get Form Data ---
+    # request.form contains the parsed form data for POST requests
+    # with standard content types like application/x-www-form-urlencoded
+    # or multipart/form-data
+    form_data = request.form
+    if not form_data:
+        print("Error: No form data received in POST request.")
+        return "Bad Request: No form data received.", 400
+
+    # --- Prepare PDF Filename ---
+    # Use 'legal_name' or fall back to 'applicant_name'
+    applicant_name = form_data.get('legal_name', form_data.get('applicant_name', ''))
+    sanitized_name = sanitize_filename(applicant_name)
+    pdf_filename = f"{sanitized_name}_Application.pdf"
+
+    # --- Define Temporary PDF Path ---
+    # Cloud Functions allow writing to /tmp directory
+    temp_pdf_path = os.path.join("/tmp", pdf_filename)
+
+    # --- Generate PDF ---
+    print(f"Attempting to generate PDF: {temp_pdf_path}")
+    pdf_success = generate_pdf_from_data(form_data, temp_pdf_path)
+
+    if not pdf_success:
+        print("PDF generation failed.")
+        # Clean up potentially incomplete file
+        if os.path.exists(temp_pdf_path):
+            try:
+                os.remove(temp_pdf_path)
+            except OSError as e:
+                print(f"Error removing temporary file {temp_pdf_path}: {e}")
+        return "Failed to generate PDF application.", 500
+
+    # --- Send Email with Generated PDF ---
+    recipient_email = "wrestler-boy1@live.com" # Target recipient
+    print(f"Attempting to send email to {recipient_email} with generated PDF {pdf_filename}")
+    email_success = send_email_with_attachment(recipient_email, temp_pdf_path)
+
+    # --- Clean up Temporary File ---
+    # It's good practice to remove temp files, although /tmp is ephemeral
+    if os.path.exists(temp_pdf_path):
+        try:
+            os.remove(temp_pdf_path)
+            print(f"Temporary file {temp_pdf_path} removed.")
+        except OSError as e:
+            # Log error but don't fail the request if email was sent
+            print(f"Warning: Error removing temporary file {temp_pdf_path}: {e}")
+
+    # --- Return Response ---
+    if email_success:
+        print("Email sending process completed successfully.")
+        return "Application submitted and email sent successfully.", 200
+    else:
+        print("Email sending failed after PDF generation.")
+        return "Application processed, but failed to send email. Check logs.", 500
