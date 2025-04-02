@@ -1,23 +1,23 @@
 steps:
-# This step uses Buildpacks to build your application
+# This step uses Buildpacks to build your application from the 'templates' directory
 - name: 'gcr.io/k8s-skaffold/pack'
   entrypoint: pack
   args:
   - build
-  # Define the name for the container image that will be built
-  # Example: gcr.io/your-project-id/app-name:$COMMIT_SHA
-  # Using placeholders Cloud Build provides:
-  - 'gcr.io/YOUR_PROJECT_ID/$REPO_NAME/$BRANCH_NAME:$COMMIT_SHA'
-  # Specify the builder image (Google standard builder)
+  # Define the name for the container image that will be built.
+  # Uses your Project ID and substitutes repo, branch, and commit info.
+  - 'gcr.io/lauravoiceassistant-452622/$REPO_NAME/$BRANCH_NAME:$COMMIT_SHA' # Project ID is updated here
+  # Specify the standard Google Cloud Buildpacks builder
   - --builder=gcr.io/buildpacks/builder
-  # *** IMPORTANT: Specify the correct path to your application code ***
+  # Specify the path to your application code relative to the repository root
   - --path=templates
 
-# Specify the image(s) to push to Google Container Registry (GCR)
-# This should match the image name used in the 'pack build' command
+# Specify the image(s) to push to Google Container Registry (GCR) after building.
+# This must match the image name defined in the 'pack build' step above.
 images:
-- 'gcr.io/YOUR_PROJECT_ID/$REPO_NAME/$BRANCH_NAME:$COMMIT_SHA'
+- 'gcr.io/lauravoiceassistant-452622/$REPO_NAME/$BRANCH_NAME:$COMMIT_SHA' # Project ID is updated here
 
-# *** IMPORTANT: Add this 'options' section to fix the logging error ***
+# Set build options
 options:
+  # Use Cloud Logging only to avoid issues with GCS bucket permissions for logs.
   logging: CLOUD_LOGGING_ONLY
