@@ -1,40 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apartment Listing</title>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body, h1, h2, h3, p { margin: 0; padding: 0; }
-body { font-family: 'Arial', sans-serif; color: #333; background: #f4f4f4; }
-.container { width: 80%; max-width: 1000px; margin: 20px auto; padding: 20px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-.title { font-size: 24px; color: #555; margin-bottom: 20px; }
-.images { display: flex; justify-content: space-between; margin-bottom: 20px; }
-.image { cursor: pointer; }
-.image img { width: 100px; height: 100px; object-fit: cover; border-radius: 5px; }
-.description { color: #666; line-height: 1.5; }
-@media (max-width: 768px) {
-    .images { flex-direction: column; }
-    .image img { width: auto; height: auto; margin-bottom: 10px; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$745.00 - Geneva Street Modern</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4; /* Light Gray */
+            color: #2c3e50; /* Dark Gray */
+            scroll-behavior: smooth;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            background-color: #2c3e50; /* Dark Blue background */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container .glow-logo img {
+            height: 70px; /* Adjusted logo size */
+            filter: drop-shadow(0 0 20px #3498db); /* Light Blue */
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-size: 1.6em; /* Font size matches */
+            color: #9b9b9b; /* Color for better visibility */
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #3498db; /* Light Blue */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 120px; /* Ensure content isn't hidden under the navbar */
+            background-color: #fff; /* White background for content */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .title {
+            font-size: 2.5em;
+            color: #2c3e50; /* Dark Gray */
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .images {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .image {
+            flex: 1;
+            margin: 5px;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+        .image:hover img {
+            transform: scale(1.1);
+        }
+        .description {
+            font-size: 1.2em;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .description p {
+            margin-bottom: 15px;
+        }
+        @media (max-width: 1024px) {
+            .images {
+                flex-direction: column;
+            }
+            .image {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
 
+<div class="navbar">
+    <div class="logo-container">
+        <div class="glow-logo">
+            <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo.png" alt="First Class Rentals Logo">
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#about-us">About Us</a>
+        <a href="Apartments.html">Apartments</a>
+        <a href="Application.html">Applications</a>
+    </div>
+</div>
+
 <div class="container">
-    <h1 class="title">$745.00 - Gevena Street Modern, quiet, spacious, WiFi, Clean</h1>
+    <h1 class="title">$745.00 - Geneva Street Modern, Quiet, Spacious, WiFi, Clean</h1>
     
     <div class="images">
         <div class="image" onclick="openImageModal('Room11.jpg')"><img src="Room11.jpg" alt="Main Image"></div>
-        <div class="image" onclick="openImageModal('Room11.jpg')"><img src="Room12.jpg" alt="Second Image"></div>
-        <div class="image" onclick="openImageModal('Room11.jpg')"><img src="Room13.jpg" alt="Third Image"></div>
+        <div class="image" onclick="openImageModal('Room12.jpg')"><img src="Room12.jpg" alt="Second Image"></div>
+        <div class="image" onclick="openImageModal('Room13.jpg')"><img src="Room13.jpg" alt="Third Image"></div>
         <!-- Add more images as needed -->
     </div>
     
-    <p class="description">
-        Modern, purpose-built residence for people retired or working. Professionally managed, this residence offers large, quiet private suite-like units with high-speed WiFi. All buildings are non-smoking and include weekly maid service. Located conveniently to supermarket, the residence is a perfect fit for those looking for a quiet, spacious, and clean environment.
-    </p>
+    <div class="description">
+        <p>Modern, purpose-built residence for people retired or working. Professionally managed, this residence offers large, quiet private suite-like units with high-speed WiFi. All buildings are non-smoking and include weekly maid service.</p>
+        <p>Located conveniently to a supermarket, the residence is a perfect fit for those looking for a quiet, spacious, and clean environment.</p>
+    </div>
 </div>
 
 <script>
@@ -45,7 +152,7 @@ function openImageModal(imageSrc) {
     modal.style.left = '0';
     modal.style.width = '100vw';
     modal.style.height = '100vh';
-    modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
     modal.style.display = 'flex';
     modal.style.justifyContent = 'center';
     modal.style.alignItems = 'center';
@@ -56,8 +163,8 @@ function openImageModal(imageSrc) {
     img.src = imageSrc;
     img.style.maxWidth = '90vw';
     img.style.maxHeight = '90vh';
-    img.style.margin = 'auto';
-    img.style.borderRadius = '8px';
+    img.style.borderRadius = '10px';
+    img.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.5)';
 
     modal.appendChild(img);
     document.body.appendChild(modal);

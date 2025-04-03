@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="First Class Rentals offers luxury rental properties with unmatched amenities and quality. Discover why our residents love us.">
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+    
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #ecf0f1; /* Light Gray */
+    color: #2c3e50; /* Dark Gray */
+    scroll-behavior: smooth;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+.navbar {
+    position: fixed;
+    top: 10F;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0); /* Transparent navbar */
+    padding: 5px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+.logo-container .glow-logo img {
+    height: 90px; /* Adjusted logo size */
+    filter: drop-shadow(0 0 20px #ff0000); /* Light Blue */
+}
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+.nav-links a {
+    text-decoration: none;
+    font-size: 1.6em; /* Increased font size */
+    color: #9b9b9b; /* White color for better visibility */
+    font-weight: bold;
+    transition: color 0.3s;
+}
+.nav-links a:hover {
+    color: #3498db; /* Light Blue */
+}
+.header-section {
+    position: relative;
+    color: #fff;
+    background-color: #2c3e50; /* Dark Blue */
+    padding-top: 80px; /* Slightly reduced padding for the header */
+}
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+.slideshow-container img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    filter: brightness(50%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.slideshow-container img.active {
+    opacity: 1;
+}
+.header-section .overlay {
+    position: absolute;
+    top: 40%; /* Adjusted to position right below the header */
+    left: 50%;
+    transform: translate(-20%, 0);
+    text-align: center;
+    width: 100%;
+    padding: 100px;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-in-out forwards;
+    animation-delay: 1s; /* Start after the fadeIn of the body */
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+.header-section h1 {
+    font-size: 3.5em; /* Adjusted font size */
+    margin-bottom: 10px; /* Reduced margin */
+    letter-spacing: 3px;
+    color: #3498db; /* Light Blue */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: 0; /* Just below the header */
+}
+.header-section .overlay-logo {
+    margin: 0px auto; /* Reduced margin */
+    width: 320px; /* Adjust width as needed */
+    height: 390px;
+    position: top;
+    top: 0px; /* Adjusted to fit closer below the title */
+}
+.header-section h2 {
+    font-size: 2em;
+    margin-bottom: 10px; /* Reduced margin */
+    color: #3498db;/* Light Blue */
+    position: relative;
+    top: -30px; /* Reduced top spacing */
+}
+.header-section .overlay p {
+    font-size: 1.5em;
+    margin-bottom: 10px; /* Reduced margin */
+    max-width: 600px;
+    line-height: 1.6;
+    margin-left: auto;
+    margin-right: auto;
+    color: #aaddff;
+    position: relative;
+    top: -20px; /* Reduced top spacing */
+}
+.header-section .cta {
+    display: inline-block;
+    padding: 15px 30px;
+    background: #3498db; /* Light Blue */
+    color: #111;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 10px; /* Reduced margin */
+    position: relative;
+    top: 60px; /* Reduced top spacing */
+}
+.header-section .cta:hover {
+    background: #2980b9; /* Darker Blue */
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.about-section {
+    text-align: center;
+    padding: 80px 20px 30px 20px; /* Adjusted padding */
+    background-color: #2c3e50; /* Dark Blue */
+}
+.about-section h2 {
+    font-size: 2.5em;
+    color: #3498db; /* Light Blue */
+    margin-bottom: 20px;
+}
+.about-section p {
+    font-size: 1.2em;
+    color: #aaddff;
+    margin-bottom: 20px;
+    max-width: 800px;
+    line-height: 1.6;
+    margin-left: auto;
+    margin-right: auto;
+}
+.features-section {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 20px 50px 20px; /* Adjusted padding */
+}
+.feature-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 30%;
+    text-align: center;
+}
+.feature-box h3 {
+    font-size: 1.5em;
+    color: #2c3e50; /* Dark Gray */
+    margin-bottom: 10px;
+}
+.feature-box p {
+    font-size: 1.1em;
+    color: #666;
+}
+.feature-box img {
+    width: 100px;
+    margin-bottom: 15px;
+}
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo-container">
+        <div class="glow-logo">
+            <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo50.png" alt="First Class Rentals Logo">
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="#" onclick="scrollToTop()">Home</a>
+        <a href="#about-us" onclick="scrollToAbout()">About Us</a>
+        <a href="Listings.html">Listings</a>
+        <a href="Application.html">Applications</a>
+    </div>
+</div>
+
+<div class="header-section" id="home">
+    <div class="slideshow-container">
+        <img src="Index5_files/Outside2.png" alt="Luxury House 1" loading="lazy">
+        <img src="Index5_files/Outside8.png" class="active" alt="Luxury House 2" loading="lazy">
+        <img src="Index5_files/Outside9.png" alt="Luxury House 3" loading="lazy">
+        <img src="Index5_files/Outside10.png" alt="Luxury House 3" loading="lazy">
+        <img src="Index5_files/Outside11.png" alt="Luxury House 3" loading="lazy">
+    </div>
+    <div class="overlay">
+        <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo20.png" alt="First Class Rentals Logo" class="overlay-logo">
+        <h2>Why Choose Us?</h2>
+        <p class="subtitle">Unrivaled amenities, unmatched quality, and a community you can call home.</p>
+        <p class="small-text">Find out why our residents love us!</p>
+        <a href="#about-us" onclick="scrollToAbout()" class="cta">ABOUT US</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="about-section" id="about-us">
+        <h2>About Us</h2>
+        <p>Welcome to First Class Rentals (905-964-7422)</p>
+        <p>We are committed to providing quality living experiences in good locations.</p>
+        <p>Since our inception in 1998, First Class Rentals has been at 
+the forefront of offering quality accommodations for budget-minded 
+renters. Our management team is dedicated to providing safe and 
+comfortable accommodations at a reasonable price in the city of Saint 
+Catharines. Located close to the downtown but still within established 
+neighborhoods. We offer the best of both worlds with being close to the 
+downtown in quiet nearby neighborhoods. Close to bus routes and 
+shopping, our rental units are designed for convenience and personal 
+enjoyment.</p>
+    </div>
+
+    <div class="features-section">
+        <div class="feature-box">
+            <h3>Modern Design</h3>
+            <img src="animation-modern.gif" alt="Modern Design Animation" class="feature-animation">
+            <p>Enjoy modern amenities like energy-efficient appliances, smart home features, and contemporary finishes.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Creative Design</h3>
+            <img src="animation-community.gif" alt="Creative Design Animation" class="feature-animation">
+            <p>Unique layouts and creative designs to suit various lifestyles and preferences.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Reliable User Support</h3>
+            <img src="animation-service.gif" alt="User Support Animation" class="feature-animation">
+            <p>Our support team is available during extended hours to help with any issues or questions.</p>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2024 First Class Rentals. All rights reserved.</p>
+</footer>
+
+<script>
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToAbout() {
+    const aboutSection = document.getElementById('about-us');
+    const extraScroll = 300; // Adjust this value to scroll further down
+
+    aboutSection.scrollIntoView({ behavior: 'smooth' });
+
+    setTimeout(() => {
+        window.scrollBy({ top: extraScroll, left: 0, behavior: 'smooth' });
+    }, 165); // Adjust delay if needed
+}
+
+
+
+
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slideshow-container img');
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        if (i === index) {
+            slide.classList.add('active');
+        }
+    });
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+}
+
+setInterval(nextSlide, 3000); // Change image every 3 seconds
+
+// Smooth scroll for "About Us" link
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+</script>
+
+</body>
+</html>

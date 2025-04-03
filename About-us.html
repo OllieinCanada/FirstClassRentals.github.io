@@ -3,77 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us - First Class Apartments</title>
+<title>First Class Rentals</title>
+<meta name="description" content="First Class Rentals offers luxury rental properties with unmatched amenities and quality. Discover why our residents love us.">
 <style>
-/* ... (existing styles) ... */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body, h1, h2, h3, p { margin: 0; padding: 0; }
-body { font-family: 'Arial', sans-serif; color: #333; background: #f4f4f4; }
-
-.heading-box {
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
     background-color: #fff;
+    color: #333;
+}
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
     padding: 20px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
 }
-
-.container { width: 80%; max-width: 1200px; margin: auto; padding: 20px; }
-.content-box {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-p {
-    margin-bottom: 15px;
-}
-
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  background: green;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    background: #111;
+    color: #fff;
 }
-.navbar ul { list-style-type: none; display: flex; gap: 25px; }
-.navbar a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
+.navbar .logo img {
+    height: 50px;
 }
-.navbar a:hover { color: yellow; }
+.navbar .menu {
+    display: flex;
+    gap: 20px;
+}
+.navbar .menu a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1em;
+}
+.navbar .menu a:hover {
+    color: #00aaff;
+}
+.header-section {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #f7f7f7;
+    border-bottom: 3px solid #111;
+}
+.header-section h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+    color: #00aaff;
+}
+.header-section p {
+    font-size: 1.2em;
+    color: #555;
+}
+.about-section {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #fff;
+    color: #333;
+}
+.about-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #00aaff;
+}
+.about-section p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    max-width: 800px;
+    line-height: 1.6;
+    margin-left: auto;
+    margin-right: auto;
+    color: #555;
+}
+.about-section .contact-info {
+    font-size: 1.2em;
+    margin-top: 20px;
+    color: #00aaff;
+}
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: #111;
+    color: #ccc;
+}
+.footer p {
+    margin: 0;
+    font-size: 1em;
+}
 </style>
 </head>
 <body>
 
 <header class="navbar container">
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="About Us.html">About Us</a></li>
-        <li><a href="Apartments.html">Apartments</a></li>
-        <li><a href="Application.html">Applications</a></li>
-      </ul>
+    <div class="logo">
+        <img src="logo.png" alt="First Class Rentals Logo">
+    </div>
+    <nav class="menu">
+        <a href="#">All Listings</a>
+        <a href="#">About Us</a>
     </nav>
 </header>
 
-<div class="header-section container">
-  <h1>About Us</h1>
+<div class="header-section">
+    <h1>First Class Rentals</h1>
+    <p>Providing luxury accommodations with unmatched amenities and quality. Discover why our residents love us!</p>
 </div>
 
-<div class="container">
-  <div class="content-box">
-    <div class="heading-box">
-        <h1>Welcome to First Class Apartments</h1>
-        <p>We are dedicated to providing high-quality living experiences in premium locations.</p>
+<div class="about-section">
+    <h2>About Us</h2>
+    <p>Welcome to First Class Rentals (905-964-7422). We are committed to providing quality living experiences in good locations.</p>
+    <p>Since our inception in 1998, First Class Rentals has been at the forefront of offering quality accommodations for budget-minded renters. Our management team is dedicated to providing safe and comfortable accommodations at a reasonable price in the city of Saint Catharines. Located close to the downtown but still within established neighborhoods. We offer the best of both worlds with being close to the downtown in quiet nearby neighborhoods. Close to bus routes and shopping, our rental units are designed for convenience and personal enjoyment.</p>
+    <div class="contact-info">
+        <p>Contact us at: 905-964-7422</p>
     </div>
-    <p>Since our inception in [Year], First Class Apartments has been at the forefront of the luxury apartment industry, offering sophisticated amenities and top-tier customer service. Our mission is to ensure that every tenant feels at home and valued.</p>
-    <p>Our team of experienced professionals is committed to maintaining the highest standards of integrity and professionalism, creating a community where everyone can thrive.</p>
-  </div>
 </div>
+
+<footer class="footer">
+    <p>© 2024 First Class Rentals. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

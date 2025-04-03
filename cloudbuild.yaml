@@ -1,0 +1,23 @@
+steps:
+# This step uses Buildpacks to build your application from the 'templates' directory
+- name: 'gcr.io/k8s-skaffold/pack'
+  entrypoint: pack
+  args:
+  - build
+  # Define a VALID image name: gcr.io/PROJECT_ID/IMAGE_NAME:TAG
+  # Using a fixed, lowercase name and the short commit SHA for the tag
+  - 'gcr.io/lauravoiceassistant-452622/firstclassrentals-github-io:$SHORT_SHA' # UPDATED IMAGE NAME STRUCTURE
+  # Specify the standard Google Cloud Buildpacks builder
+  - --builder=gcr.io/buildpacks/builder
+  # Specify the path to your application code relative to the repository root
+  - --path=templates
+
+# Specify the image(s) to push to Google Container Registry (GCR) after building.
+# This must match the image name defined in the 'pack build' step above.
+images:
+- 'gcr.io/lauravoiceassistant-452622/firstclassrentals-github-io:$SHORT_SHA' # UPDATED IMAGE NAME STRUCTURE
+
+# Set build options
+options:
+  # Use Cloud Logging only to avoid issues with GCS bucket permissions for logs.
+  logging: CLOUD_LOGGING_ONLY

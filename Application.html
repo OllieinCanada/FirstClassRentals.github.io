@@ -1,177 +1,656 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Applications - First Class Apartments</title>
-<style>
-/* ... (existing styles) ... */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body, h1, h2, h3, p { margin: 0; padding: 0; }
-body { font-family: 'Arial', sans-serif; color: #333; background: #f4f4f4; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application to Rent - First Class Apartments</title>
+    <style>
+        /* (CSS styles - same as before) */
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-.heading-box {
-    background-color: #fff; /* Background color of the box */
-    padding: 5px; /* Padding inside the box */
-    margin-bottom: 5px; /* Margin below the box */
-    border-radius: 4px; /* Rounded corners of the box */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    text-align: center; /* Center the text inside the box */
-}
+        body,
+        h1,
+        h2,
+        h3,
+        p {
+            margin: 0;
+            padding: 0;
+        }
 
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background: #f4f4f4;
+        }
 
-.container { width: 80%; max-width: 1200px; margin: auto; padding: 20px; }
-.form-section {
-    background: #f4f4f4;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.form-group {
-    margin-bottom: 15px;
-}
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-input[type="text"],
-input[type="email"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-textarea {
-    height: 100px;
-    resize: vertical;
-}
-input[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background-color: #333;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-input[type="submit"]:hover {
-    background-color: #555;
-}
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  background: green;
-}
-.navbar ul { list-style-type: none; display: flex; gap: 25px; }
-.navbar a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
-}
-.navbar a:hover { color: yellow; }
-</style>
-<script>
-function toggleVisibility(conditionElementId, targetElementId) {
-  var conditionElement = document.getElementById(conditionElementId);
-  var targetElement = document.getElementById(targetElementId);
-  targetElement.style.display = conditionElement.value === 'yes' ? 'block' : 'none';
-}
-</script>
+        /* Navigation Bar from Listings.html */
+        .navbar {
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            background-color: #2c3e50; /* Dark Blue background */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container .glow-logo img {
+            height: 70px; /* Adjusted logo size */
+            filter: drop-shadow(0 0 20px #3498db); /* Light Blue */
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-size: 1.6em; /* Font size matches */
+            color: #9b9b9b; /* Color for better visibility */
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #3498db; /* Light Blue */
+        }
+
+        .header-section {
+            text-align: center;
+            padding: 20px 0;
+            background: #fff;
+            padding-top: 100px; /* Added to ensure content isn't hidden under fixed navbar */
+        }
+
+        .header-section h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #333;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        .centered-text {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        .large-text {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%; /* Consider setting a max-width too */
+            max-width: 300px; /* Example max-width */
+            height: 100px;
+            cursor: crosshair;
+            display: block; /* Ensure canvas is block for centering/margin */
+            margin-bottom: 5px; /* Add some space below canvas */
+        }
+
+        /* Inline Group */
+        .inline-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .inline-group>div {
+            flex: 1;
+            min-width: 150px; /* Prevent fields from becoming too narrow */
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
 
-<header class="navbar container">
-    <!-- ... (navbar content) ... -->
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="About-us.html">About Us</a></li>
-        <li><a href="Apartments.html">Apartments</a></li>
-        <li><a href="Application.html">Applications</a></li>
-      </ul>
-    </nav>
-</header>
+    <header class="navbar">
+        <div class="logo-container">
+            <div class="glow-logo">
+                <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo.png" alt="First Class Rentals Logo">
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#about-us">About Us</a>
+            <a href="Listings.html">Listings</a>
+            <a href="Application.html">Applications</a>
+        </div>
+    </header>
 
-<div class="header-section container">
-  <h1>Applications</h1>
-</div>
-
-<div class="container">
-  <div class="form-section">
-    <div class="heading-box">
-        <h1>Type your information in the selected boxes to electronically send the application</h1>
+    <div class="header-section container">
+        <h1>Application to Rent</h1>
     </div>
-    <form action="/submit_application" method="post">
-        <div class="form-group">
-            <label for="fullname">Full Name:</label>
-            <input type="text" id="fullname" name="fullname" required>
+
+    <div class="container">
+        <div class="form-section">
+            <form id="rental-form" action=" https://email-to-landlord5-169594110784.northamerica-northeast2.run.app" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="applicant_name">Applicant's Name:</label>
+                    <input type="text" id="applicant_name" name="applicant_name" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="address_of_rental">Address of Rental You Are Applying For:</label>
+                    <input type="text" id="address_of_rental" name="address_of_rental" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact_number">Contact Number:</label>
+                    <input type="text" id="contact_number" name="contact_number" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="workers_name">Worker's Name (if applicable):</label>
+                    <input type="text" id="workers_name" name="workers_name" value="">
+                </div>
+                <div class="form-group inline-group">
+                    <div>
+                        <label for="workers_contact_number">Worker's Contact Number:</label>
+                        <input type="text" id="workers_contact_number" name="workers_contact_number" value="">
+                    </div>
+                    <div>
+                        <label for="workers_ext">Ext:</label>
+                        <input type="text" id="workers_ext" name="workers_ext" value="">
+                    </div>
+                </div>
+
+                <div class="centered-text large-text">APPLICATION TO RENT</div>
+                <div class="centered-text">LANDLORD'S INFORMATION SHEET</div>
+                <div class="centered-text large-text">PLEASE PRINT YOUR INFORMATION</div>
+
+                <div class="form-group">
+                    <label for="date">Date Submitted:</label>
+                    <input type="date" id="date" name="date" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="address_of_premises">Address of premises to be rented (Confirming):</label>
+                    <input type="text" id="address_of_premises" name="address_of_premises" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="occupancy_date">Desired Occupancy Date:</label>
+                    <input type="date" id="occupancy_date" name="occupancy_date" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="legal_name">Applicant's Legal Name:</label>
+                    <input type="text" id="legal_name" name="legal_name" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="preferred_name">Applicant's Preferred Name:</label>
+                    <input type="text" id="preferred_name" name="preferred_name" value="">
+                </div>
+                <div class="form-group">
+                    <label for="date_of_birth">Date of Birth:</label>
+                    <input type="date" id="date_of_birth" name="date_of_birth" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="social_insurance_number">Social Insurance Number:</label>
+                    <input type="text" id="social_insurance_number" name="social_insurance_number" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="drivers_license_number">Driver's License Number:</label>
+                    <input type="text" id="drivers_license_number" name="drivers_license_number" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="province_issued">Province/Territory Issued:</label>
+                    <input type="text" id="province_issued" name="province_issued" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="make_model_auto">Make and Model of Automobile(s):</label>
+                    <input type="text" id="make_model_auto" name="make_model_auto" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="year">Year:</label>
+                    <input type="number" id="year" name="year" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="plate_number">Plate #:</label>
+                    <input type="text" id="plate_number" name="plate_number" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="present_residence">Applicant's Present Residence Address:</label>
+                    <input type="text" id="present_residence" name="present_residence" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="how_long_present">How long at this address?</label>
+                    <input type="text" id="how_long_present" name="how_long_present" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="landlord_phone_present">Present Landlord's Phone number:</label>
+                    <input type="text" id="landlord_phone_present" name="landlord_phone_present" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="previous_address">Previous Address:</label>
+                    <input type="text" id="previous_address" name="previous_address" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="how_long_previous">How long at previous address?</label>
+                    <input type="text" id="how_long_previous" name="how_long_previous" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="landlord_phone_previous">Previous Landlord's Phone number:</label>
+                    <input type="text" id="landlord_phone_previous" name="landlord_phone_previous" value="" required>
+                </div>
+                <div class="form-group">
+                    <label>Have you ever been before the rent tribunal?</label>
+                    <input type="radio" id="rent_tribunal_yes" name="rent_tribunal" value="yes" onchange="toggleReasonOutcome(true)">
+                    <label for="rent_tribunal_yes" style="display: inline; font-weight: normal;">Yes</label>
+                    &nbsp;&nbsp;
+                    <input type="radio" id="rent_tribunal_no" name="rent_tribunal" value="no" onchange="toggleReasonOutcome(false)" checked> <label for="rent_tribunal_no" style="display: inline; font-weight: normal;">No</label>
+                </div>
+                <div class="form-group hidden" id="reason_outcome_group">
+                    <label for="reason">If yes, Reason?</label>
+                    <input type="text" id="reason" name="reason" value="">
+                    <label for="outcome">If yes, Outcome?</label>
+                    <input type="text" id="outcome" name="outcome" value="">
+                </div>
+                <div class="form-group">
+                    <label>Do you consent to a credit check?</label>
+                    <input type="radio" id="credit_check_yes" name="credit_check" value="yes" required> <label for="credit_check_yes" style="display: inline; font-weight: normal;">Yes</label>
+                     &nbsp;&nbsp;
+                    <input type="radio" id="credit_check_no" name="credit_check" value="no">
+                    <label for="credit_check_no" style="display: inline; font-weight: normal;">No</label>
+                </div>
+                <div class="form-group">
+                    <label for="monthly_income">Approximate Monthly Income ($):</label>
+                    <input type="number" id="monthly_income" name="monthly_income" value="" required>
+                </div>
+                <div class="form-group">
+                    <label for="sources">Sources of Income:</label>
+                    <input type="text" id="sources" name="sources" value="" required> </div>
+
+                <hr style="margin: 20px 0;">
+                <p><strong>Applicant Acknowledges Understanding Of The Following (Initial Required):</strong></p>
+
+                <div class="form-group">
+                     <label for="signature-pad" style="margin-top: 10px;">Initial Here:</label>
+                    <canvas id="signature-pad" width="300" height="100"></canvas>
+                    <input type="hidden" id="signature" name="signature" required> <button type="button" onclick="clearCanvas('signature-pad', 'signature')" style="padding: 5px 10px; margin-top: 5px;">Clear Initial</button>
+                </div>
+
+                <p><strong>Please Check Boxes to Confirm Understanding:</strong></p>
+                <div class="form-group">
+                    <input type="checkbox" id="garbage" name="garbage" required>
+                    <label for="garbage" style="display: inline; font-weight: normal;">Tenants are required to take out garbage to proper storage facility and to curb on garbage day.</linklabel>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="no_cats" name="no_cats" required>
+                    <label for="no_cats" style="display: inline; font-weight: normal;">Pets are not permitted (NO CATS ALLOWED).</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="snow" name="snow" required>
+                    <label for="snow" style="display: inline; font-weight: normal;">Tenants required to shovel snow in winter (walkways/steps as applicable).</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="drapes" name="drapes" required>
+                    <label for="drapes" style="display: inline; font-weight: normal;">Tenants to have proper drapes/window coverings.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="cable" name="cable" required>
+                    <label for="cable" style="display: inline; font-weight: normal;">Cable TV and major appliances (unless specified) are not included in rental agreement.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="single_person" name="single_person" required>
+                    <label for="single_person" style="display: inline; font-weight: normal;">Only one person permitted to live in each unit as per bylaw/agreement.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="no_noise" name="no_noise" required>
+                    <label for="no_noise" style="display: inline; font-weight: normal;">No excessive noise, especially after 11:00 p.m.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="no_loud_music" name="no_loud_music" required>
+                    <label for="no_loud_music" style="display: inline; font-weight normal;">No loud music at any time disruptive to other tenants.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="rent_paid" name="rent_paid" required>
+                    <label for="rent_paid" style="display: inline; font-weight: normal;">Rent must be paid on the first day of the month in full.</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="smoke_detectors" name="smoke_detectors" required>
+                    <label for="smoke_detectors" style="display: inline; font-weight: normal;">No tampering with smoke detectors. It is a criminal offense. Report smoke detector problems immediately.</label>
+                </div>
+
+                <hr style="margin: 20px 0;">
+
+                <div class="form-group">
+                    <label style="font-weight:bold; font-size: 1.1em;">In case of emergency please notify:</label>
+                    <label for="emergency_contact_name">Name:</label>
+                    <input type="text" id="emergency_contact_name" name="emergency_contact_name" value="" required>
+                    <label for="emergency_contact_relationship">Relationship:</label>
+                    <input type="text" id="emergency_contact_relationship" name="emergency_contact_relationship" value="" required>
+                    <label for="emergency_contact_city">City/Town:</label>
+                    <input type="text" id="emergency_contact_city" name="emergency_contact_city" value="" required>
+                    <label for="emergency_contact_province">Province/Territory:</label>
+                    <input type="text" id="emergency_contact_province" name="emergency_contact_province" value="" required>
+                    <label for="emergency_contact_postal">Postal Code:</label>
+                    <input type="text" id="emergency_contact_postal" name="emergency_contact_postal" value="" required>
+                    <label for="emergency_contact_day_phone">Daytime Phone #:</label>
+                    <input type="text" id="emergency_contact_day_phone" name="emergency_contact_day_phone" value="" required>
+                    <label for="emergency_contact_evening_phone">Evening Phone #:</label>
+                    <input type="text" id="emergency_contact_evening_phone" name="emergency_contact_evening_phone" value="">
+                    <label for="emergency_contact_cell">Cell Phone #:</label>
+                    <input type="text" id="emergency_contact_cell" name="emergency_contact_cell" value="">
+                </div>
+                <div class="form-group">
+                    <label style="font-weight:bold; font-size: 1.1em;">Alternate emergency contact:</label>
+                    <label for="alt_emergency_contact_name">Name:</label>
+                    <input type="text" id="alt_emergency_contact_name" name="alt_emergency_contact_name" value="">
+                    <label for="alt_emergency_contact_relationship">Relationship:</label>
+                    <input type="text" id="alt_emergency_contact_relationship" name="alt_emergency_contact_relationship" value="">
+                    <label for="alt_emergency_contact_city">City/Town:</label>
+                    <input type="text" id="alt_emergency_contact_city" name="alt_emergency_contact_city" value="">
+                    <label for="alt_emergency_contact_province">Province/Territory:</label>
+                    <input type="text" id="alt_emergency_contact_province" name="alt_emergency_contact_province" value="">
+                    <label for="alt_emergency_contact_postal">Postal Code:</label>
+                    <input type="text" id="alt_emergency_contact_postal" name="alt_emergency_contact_postal" value="">
+                    <label for="alt_emergency_contact_day_phone">Daytime Phone #:</label>
+                    <input type="text" id="alt_emergency_contact_day_phone" name="alt_emergency_contact_day_phone" value="">
+                    <label for="alt_emergency_contact_evening_phone">Evening Phone #:</label>
+                    <input type="text" id="alt_emergency_contact_evening_phone" name="alt_emergency_contact_evening_phone" value="">
+                    <label for="alt_emergency_contact_cell">Cell Phone #:</label>
+                    <input type="text" id="alt_emergency_contact_cell" name="alt_emergency_contact_cell" value="">
+                </div>
+
+                 <hr style="margin: 20px 0;">
+
+                <div class="form-group">
+                    <label style="font-weight:bold; font-size: 1.1em;">Employment Information</label>
+                    <label for="applicant_employed_by">Applicant is employed by:</label>
+                    <input type="text" id="applicant_employed_by" name="applicant_employed_by" value="" required>
+                    <label for="applicant_occupation">Occupation:</label>
+                    <input type="text" id="applicant_occupation" name="applicant_occupation" value="" required>
+                    <label for="applicant_office_phone">Applicant's Office Phone #:</label>
+                    <input type="text" id="applicant_office_phone" name="applicant_office_phone" value="">
+                </div>
+                 <div class="form-group">
+                    <label for="employed_by">Spouse/Other Occupant Employed by (if applicable):</label>
+                    <input type="text" id="employed_by" name="employed_by" value="">
+                    <label for="employed_occupation">Spouse/Other Occupation:</label>
+                    <input type="text" id="employed_occupation" name="employed_occupation" value="">
+                    <label for="employed_office_phone">Spouse/Other Office Phone #:</label>
+                    <input type="text" id="employed_office_phone" name="employed_office_phone" value="">
+                </div>
+
+                 <hr style="margin: 20px 0;">
+
+                <div class="form-group">
+                    <label style="font-weight:bold; font-size: 1.1em;">References (Non-Relative):</label>
+                    <label for="reference1">Reference 1 Name:</label>
+                    <input type="text" id="reference1" name="reference1" value="" required>
+                    <label for="reference1_phone">Reference 1 Phone number:</label>
+                    <input type="text" id="reference1_phone" name="reference1_phone" value="" required>
+
+                    <label for="reference2" style="margin-top: 10px;">Reference 2 Name:</label>
+                    <input type="text" id="reference2" name="reference2" value="" required>
+                    <label for="reference2_phone">Reference 2 Phone number:</label>
+                    <input type="text" id="reference2_phone" name="reference2_phone" value="" required>
+                </div>
+
+                 <hr style="margin: 20px 0;">
+
+                <p><strong>Applicant Declaration & Signature:</strong></p>
+                <p>The applicant declares all above statements to be true and accurate. This information is confidential and will not be released to anyone without the consent of the applicant. Applicant consents to landlord contacting references, employers, and performing a credit check as indicated above.</p>
+
+                <div class="form-group">
+                    <label for="signature-pad1" style="margin-top: 10px;">Applicant Signature:</label>
+                    <canvas id="signature-pad1" width="300" height="100"></canvas>
+                    <input type="hidden" id="signature1" name="signature1" required> <button type="button" onclick="clearCanvas('signature-pad1', 'signature1')" style="padding: 5px 10px; margin-top: 5px;">Clear Signature</button>
+                    <label for="signature1_date">Date:</label>
+                    <input type="date" id="signature1_date" name="signature1_date" value="" required>
+                </div>
+                <div class="form-group">
+                     <label for="signature-pad2" style="margin-top: 10px;">Spouse/Other Applicant Signature (if applicable):</label>
+                    <canvas id="signature-pad2" width="300" height="100"></canvas>
+                    <input type="hidden" id="signature2" name="signature2">
+                     <button type="button" onclick="clearCanvas('signature-pad2', 'signature2')" style="padding: 5px 10px; margin-top: 5px;">Clear Signature</button>
+                    <label for="signature2_date">Date:</label>
+                    <input type="date" id="signature2_date" name="signature2_date">
+                </div>
+                <div class="form-group">
+                    <label for="witness">Witness Name (Landlord/Agent):</label>
+                    <input type="text" id="witness" name="witness" value="">
+                    <label for="witness_date">Witness Date:</label>
+                    <input type="date" id="witness_date" name="witness_date" value="">
+                </div>
+
+
+                <div class="form-group" style="margin-top: 25px;">
+                    <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY_HERE"></div>
+                    </div>
+
+                <div class="form-group" style="margin-top: 25px;">
+                    <input type="submit" value="Submit Application">
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        // Keep track of all signature pads initialized
+        const signaturePads = {};
 
-        <div class="form-group">
-            <label for="address">Current Address:</label>
-            <textarea id="address" name="address" required></textarea>
-        </div>
+        function initializeSignaturePad(canvasId, hiddenInputId) {
+            const canvas = document.getElementById(canvasId);
+            // Check if canvas exists before proceeding
+            if (!canvas) {
+                console.error("Canvas element not found:", canvasId);
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+            let drawing = false;
+            let hasDrawing = false; // Flag to check if anything was drawn
 
-        <div class="form-group">
-            <label for="phone">Phone Number:</label>
-            <input type="text" id="phone" name="phone" required>
-        </div>
+             // Store context for clearing
+             signaturePads[canvasId] = { ctx: ctx, hiddenInput: document.getElementById(hiddenInputId) };
 
-        <!-- Additional Fields -->
-        <div class="form-group">
-            <label for="tenantRef">Tenant Reference:</label>
-            <input type="text" id="tenantRef" name="tenantRef">
-        </div>
+            function getMousePos(canvas, evt) {
+                const rect = canvas.getBoundingClientRect();
+                return {
+                    x: (evt.clientX - rect.left) * (canvas.width / rect.width),
+                    y: (evt.clientY - rect.top) * (canvas.height / rect.height)
+                };
+            }
 
-        <div class="form-group">
-          <label for="rentPaid"> First and Last Months Rent:</label>
-          <select id="rentPaid" name="rentPaid">
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-          </select>
-        </div>
-      
+            function getTouchPos(canvas, touch) {
+                const rect = canvas.getBoundingClientRect();
+                return {
+                    x: (touch.clientX - rect.left) * (canvas.width / rect.width),
+                    y: (touch.clientY - rect.top) * (canvas.height / rect.height)
+                };
+            }
 
-        <div class="form-group">
-            <label for="occupancyType">Occupancy Type:</label>
-            <select id="occupancyType" name="occupancyType">
-                <option value="single">Single</option>
-                <option value="shared">Shared</option>
-                <option value="family">Family</option>
-            </select>
-        </div>
+            function startPosition(e) {
+                e.preventDefault(); // Prevent scrolling on touch devices
+                drawing = true;
+                draw(e); // Start drawing immediately
+            }
 
-        <div class="form-group">
-            <label for="criminalRecord">Criminal Record:</label>
-            <select id="criminalRecord" name=criminalRecord">
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-        </div>
+            function endPosition() {
+                if (!drawing) return;
+                drawing = false;
+                ctx.beginPath(); // Reset path after lifting pen/mouse
+                // Only save if something was actually drawn
+                if (hasDrawing) {
+                    document.getElementById(hiddenInputId).value = canvas.toDataURL();
+                }
+            }
 
-        <div class="form-group">
-            <label for="employment">Employment Status:</label>
-            <input type="text" id="employment" name="employment">
-        </div>
+            function draw(e) {
+                if (!drawing) return;
+                e.preventDefault();
 
-        <input type="submit" value="Submit Application">
-    </form>
-</div>
+                let pos;
+                if (e.type.includes('mouse')) {
+                    pos = getMousePos(canvas, e);
+                } else if (e.type.includes('touch')) {
+                    pos = getTouchPos(canvas, e.touches[0]);
+                } else {
+                    return; // Exit if event type is unknown
+                }
 
 
-</div>
+                ctx.lineWidth = 2; // Slightly thicker line
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = 'black';
 
-</body>
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                ctx.beginPath(); // Begin new path segment
+                ctx.moveTo(pos.x, pos.y);
+                hasDrawing = true; // Mark that drawing has occurred
+            }
+
+            // Mouse Events
+            canvas.addEventListener('mousedown', startPosition);
+            canvas.addEventListener('mouseup', endPosition);
+            canvas.addEventListener('mouseout', endPosition); // Stop drawing if mouse leaves canvas
+            canvas.addEventListener('mousemove', draw);
+
+            // Touch Events
+            canvas.addEventListener('touchstart', startPosition);
+            canvas.addEventListener('touchend', endPosition);
+            canvas.addEventListener('touchcancel', endPosition); // Handle cancelled touches
+            canvas.addEventListener('touchmove', draw);
+        }
+
+        // Function to clear a specific canvas
+        function clearCanvas(canvasId, hiddenInputId) {
+            const pad = signaturePads[canvasId];
+            if (pad && pad.ctx) {
+                const canvas = pad.ctx.canvas;
+                pad.ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the drawing
+                if(pad.hiddenInput) {
+                     pad.hiddenInput.value = ""; // Clear the hidden input value
+                }
+                // Reset the drawing flag for this canvas if needed (might not be strictly necessary here)
+            }
+        }
+
+
+        function toggleReasonOutcome(show) {
+            const reasonOutcomeGroup = document.getElementById('reason_outcome_group');
+            const reasonInput = document.getElementById('reason');
+            const outcomeInput = document.getElementById('outcome');
+            if (show) {
+                reasonOutcomeGroup.classList.remove('hidden');
+                reasonInput.required = true; // Make required if shown
+                outcomeInput.required = true;
+            } else {
+                reasonOutcomeGroup.classList.add('hidden');
+                reasonInput.required = false; // Remove required if hidden
+                outcomeInput.required = false;
+                reasonInput.value = ""; // Clear values when hidden
+                outcomeInput.value = "";
+            }
+        }
+
+        // Initialize all signature pads on page load
+        document.addEventListener('DOMContentLoaded', (event) => {
+             initializeSignaturePad('signature-pad', 'signature');
+             initializeSignaturePad('signature-pad1', 'signature1');
+             initializeSignaturePad('signature-pad2', 'signature2');
+             // Set default state for reason/outcome fields based on initial radio button state
+             const rentTribunalNo = document.getElementById('rent_tribunal_no');
+             if (rentTribunalNo && rentTribunalNo.checked) {
+                toggleReasonOutcome(false);
+             }
+        });
+
+        // Optional: Add form validation for required signature fields before submission
+        const form = document.getElementById('rental-form');
+        form.addEventListener('submit', function(event) {
+            // Example: Check if the main signature/initial is provided
+            const signatureInput = document.getElementById('signature');
+            const signature1Input = document.getElementById('signature1');
+
+            if (signatureInput && signatureInput.required && !signatureInput.value) {
+                alert('Please provide your initials in the designated box.');
+                event.preventDefault(); // Stop form submission
+                return;
+            }
+             if (signature1Input && signature1Input.required && !signature1Input.value) {
+                alert('Please provide your signature in the designated box.');
+                event.preventDefault(); // Stop form submission
+                return;
+            }
+             // Add checks for other required fields if necessary
+        });
+
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'929dd1334833673f',t:'MTc0MzU3MDU5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platformbundcripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
