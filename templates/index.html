@@ -4,7 +4,6 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>First Class Rentals</title>
 <meta name="description" content="First Class Rentals offers luxury rental properties with unmatched amenities and quality. Discover why our residents love us.">
 <style>
 * {
@@ -27,10 +26,10 @@ body {
 }
 .navbar {
     position: fixed;
-    top: 0;
+    top: 10F;
     z-index: 1000;
     background: rgba(0, 0, 0, 0); /* Transparent navbar */
-    padding: 10px 20px;
+    padding: 5px 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -41,8 +40,8 @@ body {
     align-items: center;
 }
 .logo-container .glow-logo img {
-    height: 70px; /* Adjusted logo size */
-    filter: drop-shadow(0 0 20px #3498db); /* Light Blue */
+    height: 90px; /* Adjusted logo size */
+    filter: drop-shadow(0 0 20px #ff0000); /* Light Blue */
 }
 .nav-links {
     display: flex;
@@ -86,12 +85,12 @@ body {
 }
 .header-section .overlay {
     position: absolute;
-    top: 45%; /* Adjusted to position right below the header */
+    top: 40%; /* Adjusted to position right below the header */
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-20%, 0);
     text-align: center;
     width: 100%;
-    padding: 20px;
+    padding: 100px;
     opacity: 0;
     animation: fadeInUp 0.5s ease-in-out forwards;
     animation-delay: 1s; /* Start after the fadeIn of the body */
@@ -116,18 +115,18 @@ body {
     top: 0; /* Just below the header */
 }
 .header-section .overlay-logo {
-    margin: 10px auto; /* Reduced margin */
-    width: 150px; /* Adjust width as needed */
-    height: auto;
-    position: relative;
-    top: 20px; /* Adjusted to fit closer below the title */
+    margin: 0px auto; /* Reduced margin */
+    width: 320px; /* Adjust width as needed */
+    height: 390px;
+    position: top;
+    top: 0px; /* Adjusted to fit closer below the title */
 }
 .header-section h2 {
     font-size: 2em;
     margin-bottom: 10px; /* Reduced margin */
-    color: #3498db; /* Light Blue */
+    color: #3498db;/* Light Blue */
     position: relative;
-    top: 40px; /* Reduced top spacing */
+    top: -30px; /* Reduced top spacing */
 }
 .header-section .overlay p {
     font-size: 1.5em;
@@ -138,7 +137,7 @@ body {
     margin-right: auto;
     color: #aaddff;
     position: relative;
-    top: 50px; /* Reduced top spacing */
+    top: -20px; /* Reduced top spacing */
 }
 .header-section .cta {
     display: inline-block;
@@ -202,7 +201,7 @@ body {
     color: #666;
 }
 .feature-box img {
-    width: 50px;
+    width: 100px;
     margin-bottom: 15px;
 }
 .footer {
@@ -218,13 +217,13 @@ body {
 <div class="navbar">
     <div class="logo-container">
         <div class="glow-logo">
-            <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo.png" alt="First Class Rentals Logo">
+            <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo50.png" alt="First Class Rentals Logo">
         </div>
     </div>
     <div class="nav-links">
         <a href="#" onclick="scrollToTop()">Home</a>
         <a href="#about-us" onclick="scrollToAbout()">About Us</a>
-        <a href="Apartments.html">Apartments</a>
+        <a href="Listings.html">Listings</a>
         <a href="Application.html">Applications</a>
     </div>
 </div>
@@ -232,12 +231,13 @@ body {
 <div class="header-section" id="home">
     <div class="slideshow-container">
         <img src="Index5_files/Outside2.png" alt="Luxury House 1" loading="lazy">
-        <img src="Index5_files/Outside6.png" class="active" alt="Luxury House 2" loading="lazy">
-        <img src="Index5_files/Outside5.png" alt="Luxury House 3" loading="lazy">
+        <img src="Index5_files/Outside8.png" class="active" alt="Luxury House 2" loading="lazy">
+        <img src="Index5_files/Outside9.png" alt="Luxury House 3" loading="lazy">
+        <img src="Index5_files/Outside10.png" alt="Luxury House 3" loading="lazy">
+        <img src="Index5_files/Outside11.png" alt="Luxury House 3" loading="lazy">
     </div>
     <div class="overlay">
-        <h1>FIRST CLASS RENTALS</h1>
-        <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo.png" alt="First Class Rentals Logo" class="overlay-logo">
+        <img src="file:///C:/Users/Olive/OneDrive/Desktop/WEBsite/templates/Logo20.png" alt="First Class Rentals Logo" class="overlay-logo">
         <h2>Why Choose Us?</h2>
         <p class="subtitle">Unrivaled amenities, unmatched quality, and a community you can call home.</p>
         <p class="small-text">Find out why our residents love us!</p>
@@ -269,12 +269,12 @@ enjoyment.</p>
         </div>
         <div class="feature-box">
             <h3>Creative Design</h3>
-            <img src="animation-creative.png" alt="Creative Design Animation" class="feature-animation">
+            <img src="animation-community.gif" alt="Creative Design Animation" class="feature-animation">
             <p>Unique layouts and creative designs to suit various lifestyles and preferences.</p>
         </div>
         <div class="feature-box">
             <h3>Reliable User Support</h3>
-            <img src="animation-support.png" alt="User Support Animation" class="feature-animation">
+            <img src="animation-service.gif" alt="User Support Animation" class="feature-animation">
             <p>Our support team is available during extended hours to help with any issues or questions.</p>
         </div>
     </div>
@@ -290,8 +290,18 @@ function scrollToTop() {
 }
 
 function scrollToAbout() {
-    document.getElementById('about-us').scrollIntoView({ behavior: 'smooth' });
+    const aboutSection = document.getElementById('about-us');
+    const extraScroll = 300; // Adjust this value to scroll further down
+
+    aboutSection.scrollIntoView({ behavior: 'smooth' });
+
+    setTimeout(() => {
+        window.scrollBy({ top: extraScroll, left: 0, behavior: 'smooth' });
+    }, 165); // Adjust delay if needed
 }
+
+
+
 
 let currentSlide = 0;
 const slides = document.querySelectorAll('.slideshow-container img');
